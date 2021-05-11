@@ -2,7 +2,7 @@ language: ruby
 
 branches:
   only:
-  # - master
+  - master
   - /^hpool-miner-v.*$/
 
 services:
@@ -33,5 +33,5 @@ script:
   - TAGETPLATFORM="linux/amd64,linux/arm64,linux/arm";
   - if [[ "$TRAVIS_BRANCH" = "master" ]]; then TARGET_IMAGE_PRD="${LOWERCASE}:latest"; else TARGET_IMAGE_PRD="${LOWERCASE}:${TRAVIS_TAG:12}"; fi
   - if [[ "$TRAVIS_BRANCH" != "master" && $TAG < 120 ]]; then TAGETPLATFORM="linux/amd64"; fi
-  - cd hpool/miner-${TRAVIS_TAG:12}/
+  - cd hpool/miner-v${TRAVIS_TAG:13}/
   - docker buildx build --push --platform $TAGETPLATFORM -f Dockerfile -t $TARGET_IMAGE_PRD .
