@@ -28,7 +28,7 @@ services:
       - /opt/chia/logs:/opt/log
       - /opt/chia/config.yaml:/opt/config.yaml
     command:
-      - hpool-miner
+      - hpool-chia-miner
 
 ```
 
@@ -39,5 +39,5 @@ docker run -itd --rm  --name miner \
     -v "/mnt/dst:/mnt/dst" \
     -v "/opt/chia/logs:/opt/log" \
     -v "/opt/chia/config.yaml:/opt/config.yaml" \
-    kayuii/hpool-miner:v1.2.0-5 hpool-miner
+    kayuii/hpool-miner:v1.2.0-5 hpool-chia-miner
 ```
