@@ -27,7 +27,7 @@ before_install:
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   # - LOWERCASE=$(echo $TRAVIS_REPO_SLUG | tr '[A-Z]' '[a-z]')
-  - LOWERCASE="kayuii/chia-miner"
+  - LOWERCASE="kayuii/hpool-miner"
   - TAG=$(echo "${TRAVIS_TAG:13}" | sed 's/\.//g')
   - echo "$TAG"
   - TAGETPLATFORM="linux/amd64,linux/arm64,linux/arm";
