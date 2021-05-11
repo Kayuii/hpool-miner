@@ -1,0 +1,37 @@
+language: ruby
+
+branches:
+  only:
+  # - master
+  - /^hpool-miner-v.*$/
+
+services:
+- docker
+
+os: linux
+
+dist: bionic
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - export DOCKER_BUILDKIT=1
+  - docker run --rm --privileged tonistiigi/binfmt:latest --install all
+  - docker buildx version
+  - docker buildx create --platform linux/amd64,linux/arm64,linux/arm --use
+  - docker buildx ls
+  - docker buildx inspect --bootstrap
+
+script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  # - LOWERCASE=$(echo $TRAVIS_REPO_SLUG | tr '[A-Z]' '[a-z]')
+  - LOWERCASE="kayuii/chia-miner"
+  - TAG=$(echo "${TRAVIS_TAG:13}" | sed 's/\.//g')
+  - echo "$TAG"
+  - TAGETPLATFORM="linux/amd64,linux/arm64,linux/arm";
+  - if [[ "$TRAVIS_BRANCH" = "master" ]]; then TARGET_IMAGE_PRD="${LOWERCASE}:latest"; else TARGET_IMAGE_PRD="${LOWERCASE}:${TRAVIS_TAG:12}"; fi
+  - if [[ "$TRAVIS_BRANCH" != "master" && $TAG < 120 ]]; then TAGETPLATFORM="linux/amd64"; fi
+  - cd hpool/miner-${TRAVIS_TAG:12}/
+  - docker buildx build --push --platform $TAGETPLATFORM -f Dockerfile -t $TARGET_IMAGE_PRD .

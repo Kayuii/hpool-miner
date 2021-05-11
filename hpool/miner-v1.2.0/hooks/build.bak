@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -x
+export DOCKER_CLI_EXPERIMENTAL=enabled
+ls -al /proc/sys/fs/binfmt_misc/
+docker buildx version
+docker run --rm --privileged tonistiigi/binfmt:latest --install all
+
+ls -al /proc/sys/fs/binfmt_misc/
+docker buildx version
+docker buildx create --use --name=mybuilder --driver docker-container
+docker buildx ls
+set +x
+
+docker buildx build --push -f Dockerfile -t $IMAGE_NAME --platform linux/amd64,linux/arm,linux/arm64 .
+
+
