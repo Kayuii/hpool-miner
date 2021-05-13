@@ -8,6 +8,9 @@ hpool-miner
 
 update v1.2.0 Increase arm, aarch64 version
 
+
+- `v1.3.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0-2/Dockerfile))
+- `v1.3.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0/Dockerfile))
 - `v1.2.0-5` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.2.0-5/Dockerfile))
 - `v1.2.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.2.0/Dockerfile))
 - `v1.1.1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.1.1/Dockerfile))
