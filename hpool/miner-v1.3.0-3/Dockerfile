@@ -1,6 +1,6 @@
 FROM --platform=linux/amd64 alpine:3.12 as builder
 
-ARG VER=v1.3.0-2
+ARG VER=v1.3.0-3
 ARG TARGETARCH
 ARG ARCH
 ENV PATH=$PATH:/opt
