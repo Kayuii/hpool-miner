@@ -44,3 +44,23 @@ docker run -itd --rm  --name miner \
     -v "/opt/chia/config.yaml:/opt/config.yaml" \
     kayuii/hpool-miner:v1.2.0-5 hpool-chia-miner
 ```
+
+default config.yaml
+
+```yaml
+path: []            #扫盘路径
+minerName:          #矿机名称（自定义）
+apiKey:             #hpool apikey
+cachePath: ""
+deviceId: ""
+extraParams: {}
+log:
+  lv: info
+  path: ./log/
+  name: miner.log
+url:
+  info: ""
+  submit: ""
+scanPath: false     #是否扫盘
+scanMinute: 60      #扫盘间隔（分钟）
+```
