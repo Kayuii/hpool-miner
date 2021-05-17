@@ -9,6 +9,7 @@ hpool-miner
 update v1.2.0 Increase arm, aarch64 version
 
 
+- `v1.3.0-4` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0-4/Dockerfile))
 - `v1.3.0-3` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0-3/Dockerfile))
 - `v1.3.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0/Dockerfile))
 - `v1.2.0-5` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.2.0-5/Dockerfile))
@@ -24,7 +25,7 @@ version: "3"
 
 services:
   miner:
-    image: kayuii/hpool-miner:v1.2.0-5
+    image: kayuii/hpool-miner:v1.3.0-3
     restart: always
     volumes:
       - /mnt/dst:/mnt/dst
@@ -42,7 +43,7 @@ docker run -itd --rm  --name miner \
     -v "/mnt/dst:/mnt/dst" \
     -v "/opt/chia/logs:/opt/log" \
     -v "/opt/chia/config.yaml:/opt/config.yaml" \
-    kayuii/hpool-miner:v1.2.0-5 hpool-chia-miner
+    kayuii/hpool-miner:v1.3.0-3 hpool-chia-miner
 ```
 
 default config.yaml
