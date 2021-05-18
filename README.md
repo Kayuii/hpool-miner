@@ -24,7 +24,7 @@ version: "3"
 
 services:
   miner:
-    image: kayuii/hpool-miner:v1.3.0-3
+    image: kayuii/hpool-miner:v1.3.0-5
     restart: always
     volumes:
       - /mnt/dst:/mnt/dst
@@ -42,7 +42,7 @@ docker run -itd --rm  --name miner \
     -v "/mnt/dst:/mnt/dst" \
     -v "/opt/chia/logs:/opt/log" \
     -v "/opt/chia/config.yaml:/opt/config.yaml" \
-    kayuii/hpool-miner:v1.3.0-3 hpool-chia-miner
+    kayuii/hpool-miner:v1.3.0-5 hpool-chia-miner
 ```
 
 default config.yaml
