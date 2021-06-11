@@ -75,12 +75,12 @@ or
 docker run -itd --rm  --name miner \
     -v "/mnt/dst:/mnt/dst" \
     -v "/opt/chia/logs:/opt/log" \
-    -e 'DIR=["/mnt/dst"]'
-    -e "APIKEY=1df8e525-772f-40e9-908d-0f26e36f8046"
-    -e 'HOSTNAME=miner'
-    -e 'LOGPATH=./logs/'
-    -e 'SCAN=30'
-    -e 'PROXY=http://192.168.1.88:9190'
+    -e 'DIR=["/mnt/dst"]' \
+    -e "APIKEY=1df8e525-772f-40e9-908d-0f26e36f8046" \
+    -e 'HOSTNAME=miner' \
+    -e 'LOGPATH=./logs/' \
+    -e 'SCAN=30' \
+    -e 'PROXY=http://192.168.1.88:9190' \
     kayuii/hpool-miner:v1.4.1-1 hpool-chia-miner
 ```
 
