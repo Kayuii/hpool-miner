@@ -8,7 +8,7 @@ ENV TZ=Asia/Shanghai
 
 COPY arch.sh /tmp/arch.sh
 
- RUN apk --no-cache add bash tzdata \
+RUN apk --no-cache add bash tzdata \
  && mkdir -p /tmp/linux \
  && /tmp/arch.sh ${VER} \
  && mv /tmp/linux/* /opt/ \
@@ -29,5 +29,12 @@ COPY --from=builder /opt/ /opt/
 
 RUN apt-get -qq update \
     && apt-get -qq install -y --no-install-recommends ca-certificates curl \
-    && cd /opt/ && mv hpool-* hpool-chia-miner \
+    && cd /opt/ \
+    && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini \
+    && chmod +x tini \
+    && mv hpool-* hpool-chia-miner \
     && ls -al /opt/
+
+ENTRYPOINT ["tini", "--"]
+
+CMD ["hpool-chia-miner"]

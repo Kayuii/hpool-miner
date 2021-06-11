@@ -30,6 +30,13 @@ COPY --from=builder /opt/config.yaml /opt/config.yaml
 
 RUN apt-get -qq update \
     && apt-get -qq install -y --no-install-recommends ca-certificates curl \
+    && cd /opt/ \
+    && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini \
+    && chmod +x tini \
     && ls -al /opt/
 
 EXPOSE 9190
+
+ENTRYPOINT ["tini", "--"]
+
+CMD ["x-proxy"]
