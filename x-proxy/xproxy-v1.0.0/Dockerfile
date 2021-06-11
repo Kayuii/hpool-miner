@@ -20,6 +20,7 @@ COPY arch.sh /tmp/arch.sh
 
 FROM ubuntu:20.04
 
+RUN groupadd -r chia && useradd -r -m -g chia chia
 ENV PATH=$PATH:/opt
 WORKDIR /opt
 
@@ -29,7 +30,7 @@ COPY --from=builder /opt/x-proxy-linux /opt/x-proxy
 COPY --from=builder /opt/config.yaml /opt/config.yaml
 
 RUN apt-get -qq update \
-    && apt-get -qq install -y --no-install-recommends ca-certificates curl \
+    && apt-get -qq install -y --no-install-recommends ca-certificates curl gosu \
     && cd /opt/ \
     && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini \
     && chmod +x tini \
@@ -37,6 +38,8 @@ RUN apt-get -qq update \
 
 EXPOSE 9190
 
-ENTRYPOINT ["tini", "--"]
+COPY docker-entrypoint.sh /opt/entrypoint.sh
+
+ENTRYPOINT ["tini", "--", "entrypoint.sh"]
 
 CMD ["x-proxy"]

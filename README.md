@@ -8,7 +8,6 @@ An [hpool-chia-miner](https://github.com/hpool-dev/chia-miner) docker image.
 
 hpool-miner
 
-
 update v1.2.0 Increase arm, aarch64 version
 
 2021-06-11 add docker-entrypoint.sh, gosu, tini
@@ -20,6 +19,10 @@ update v1.2.0 Increase arm, aarch64 version
 - `v1.2.0-5` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.2.0-5/Dockerfile))
 - `v1.2.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.2.0/Dockerfile))
 - `v1.1.1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.1.1/Dockerfile))
+
+x-proxy
+
+- `v1.0.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy/xproyx-v1.0.0/Dockerfile))
 
 ## Examples
 
