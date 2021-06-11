@@ -10,7 +10,7 @@ hpool-miner
 
 update v1.2.0 Increase arm, aarch64 version
 
-
+- `v1.4.1-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.4.1-1/Dockerfile))
 - `v1.4.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.4.0-2/Dockerfile))
 - `v1.3.0-6` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0-6/Dockerfile))
 - `v1.3.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0/Dockerfile))
@@ -51,7 +51,7 @@ docker run -itd --rm  --name miner \
 default config.yaml
 
 ```yaml
-path: []            #扫盘路径
+path: ["/mnt/dst"]            #扫盘路径
 minerName:          #矿机名称（自定义）
 apiKey:             #hpool apikey
 cachePath: ""
@@ -62,8 +62,13 @@ log:
   path: ./log/
   name: miner.log
 url:
-  info: ""
-  submit: ""
+  # 一个局域网内，代理只需要开一台就可以了，如代理所在的机器Ip是192.168.1.88，端口9190
+  # 下面配置改为
+  # proxy: "http://192.168.1.88:9190"
+  # In a local area network, only one proxy is required. For example, the IP of the machine where the proxy is located is 192.168.1.88 and the port is 9190
+  # The following configuration is changed to
+  # proxy: "http://192.168.1.88:9190"
+  proxy: ""
 scanPath: false     #是否扫盘
 scanMinute: 60      #扫盘间隔（分钟）
 ```
