@@ -4,6 +4,7 @@ branches:
   only:
   - master
   - /^hpool-miner-v.*$/
+  - /^xproxy-v.*$/
 
 services:
 - docker
@@ -26,13 +27,7 @@ before_install:
 
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  # - LOWERCASE=$(echo $TRAVIS_REPO_SLUG | tr '[A-Z]' '[a-z]')
-  - LOWERCASE="kayuii/hpool-miner"
-  - if [[ "$TRAVIS_TAG" = "" ]]; then TRAVIS_TAG=$(git describe --abbrev=0); fi
+  - if [[ "$TRAVIS_BRANCH" = "master" ]];then TRAVIS_TAG=$(git describe --abbrev=0); fi
   - TAG=$(echo "${TRAVIS_TAG:13}" | sed 's/\.//g')
-  - echo "$TAG"
-  - TAGETPLATFORM="linux/amd64,linux/arm64,linux/arm";
-  - if [[ "$TRAVIS_BRANCH" = "master" ]]; then TARGET_IMAGE_PRD="${LOWERCASE}:latest"; else TARGET_IMAGE_PRD="${LOWERCASE}:${TRAVIS_TAG:12}"; fi
-  - if [[ "$TRAVIS_BRANCH" != "master" && $TAG < 120 ]]; then TAGETPLATFORM="linux/amd64"; fi
-  - cd hpool/miner-v${TRAVIS_TAG:13}/
-  - docker buildx build --push --platform $TAGETPLATFORM -f Dockerfile -t $TARGET_IMAGE_PRD .
+  - if [[ "${TRAVIS_TAG:0:6}" = "xproxy" ]];then make xproxy; fi
+  - if [[ "${TRAVIS_TAG:0:11}" = "hpool-miner" ]];then make hpool-miner; fi

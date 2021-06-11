@@ -22,7 +22,7 @@ update v1.2.0 Increase arm, aarch64 version
 
 x-proxy
 
-- `v1.0.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy/xproyx-v1.0.0/Dockerfile))
+- `v1.0.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy/xproxy-v1.0.0/Dockerfile))
 
 ## Examples
 
