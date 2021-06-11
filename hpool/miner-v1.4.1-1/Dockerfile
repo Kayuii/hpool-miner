@@ -20,6 +20,8 @@ RUN apk --no-cache add bash tzdata \
 
 FROM ubuntu:20.04
 
+RUN groupadd -r chia && useradd -r -m -g chia chia
+
 ENV PATH=$PATH:/opt
 WORKDIR /opt
 
@@ -28,13 +30,16 @@ COPY --from=builder /etc/timezone /etc
 COPY --from=builder /opt/ /opt/
 
 RUN apt-get -qq update \
-    && apt-get -qq install -y --no-install-recommends ca-certificates curl \
+    && apt-get -qq install -y --no-install-recommends ca-certificates curl gosu \
     && cd /opt/ \
     && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini \
     && chmod +x tini \
     && mv hpool-* hpool-chia-miner \
     && ls -al /opt/
 
+
+COPY docker-entrypoint.sh /opt/entrypoint.sh
+
 ENTRYPOINT ["tini", "--"]
 
-CMD ["hpool-chia-miner"]
+CMD ["entrypoint.sh","hpool-chia-miner"]
