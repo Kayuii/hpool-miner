@@ -8,33 +8,34 @@ fi
 
 if [ "$1" = "hpool-chia-miner" ] ; then
     if [ -n "$DIR" ]; then
-        sed -i "/path:$/c path: $DIR" config.yaml
-    else
-        sed -i "/path:$/c path: [ '/mnt/dst' ]" config.yaml
+        echo "$(sed "/path:$/c path: $DIR" config.yaml)" > config.yaml 
     fi
     if [ -n "$APIKEY" ]; then
-        sed -i "/apiKey/c apiKey: $APIKEY" config.yaml
+        echo "$(sed "/apiKey:$/c apiKey: $APIKEY" config.yaml)" > config.yaml 
     fi
     if [ -n "$HOSTNAME" ]; then
-        sed -i "/minerName/c minerName: $HOSTNAME" config.yaml
+        echo "$(sed "/minerName:$/c minerName: $HOSTNAME" config.yaml)" > config.yaml 
     fi
     if [ -n "$PROXY" ]; then
-        sed -i "s!proxy: \"\"!proxy: \"$PROXY\"!g" config.yaml
+        echo "$(sed "s!proxy: \"\"!proxy: \"$PROXY\"!g" config.yaml)" > config.yaml 
     fi
     if [ -n "$LOGPATH" ]; then
-        sed -i "s:./log/:$LOGPATH:g" config.yaml
+        echo "$(sed "s:./log/:$LOGPATH:g" config.yaml)" > config.yaml 
+        mkdir -p "$LOGPATH"
+        chown -R chia "$LOGPATH"
+        chown -h chia:chia "$LOGPATH"
     else
-        LOGPATH=./log/
-        sed -i "s:./log/:$LOGPATH:g" config.yaml
+        mkdir -p ./log/
+        chown -R chia ./log/
+        chown -h chia:chia ./log/
     fi
     if [ -n "$SCAN" ]; then
-        sed -i "/scanPath/c scanPath: true" config.yaml
-        sed -i "/scanMinute/c scanMinute: $SCAN" config.yaml
+        echo "$(sed "/scanPath/c scanPath: true" config.yaml)" > config.yaml 
+        echo "$(sed "/scanMinute/c scanMinute: $SCAN" config.yaml)" > config.yaml 
     fi
+    chown -R chia .
+    chown -h chia:chia .
     cat config.yaml
-    mkdir -p "$LOGPATH"
-    chown -R chia "$LOGPATH"
-    chown -h chia:chia "$LOGPATH"
     echo "run : $@ "
     exec gosu chia "$@"
 fi
