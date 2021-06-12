@@ -29,5 +29,6 @@ script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - if [[ "$TRAVIS_BRANCH" = "master" ]];then TRAVIS_TAG=$(git describe --abbrev=0); fi
   - TAG=$(echo "${TRAVIS_TAG:13}" | sed 's/\.//g')
+  - echo "${TAG}"
   - if [[ "${TRAVIS_TAG:0:6}" = "xproxy" ]];then make xproxy; fi
   - if [[ "${TRAVIS_TAG:0:11}" = "hpool-miner" ]];then make hpool-miner; fi

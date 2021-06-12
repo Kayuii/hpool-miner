@@ -6,7 +6,7 @@ IMAGE_TAG:=hpool-miner
 TARGET_IMAGE_PRD=$(IMAGE_PREFIX)/$(IMAGE_TAG)
 
 TAGPRE=$(shell echo "${TRAVIS_TAG}" | cut -c9-13)
-TAGHPOOL=$(shell echo "${TRAVIS_TAG}" | cut -c12-18)
+TAGHPOOL=$(shell echo "${TRAVIS_TAG}" | cut -c13-20)
 
 all: hpool-miner xproxy
 
@@ -16,9 +16,9 @@ hpool-miner:
 		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD}:latest . ;\
 	else \
 		cd "hpool/miner-${TAGHPOOL}/"; \
-		if [ ${TAG} -lt 120 ]; then \
+		if [ 0${TAG} -lt 120 ]; then \
 			docker buildx build --push --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD}:${TAGHPOOL} . ;\
-		else
+		else \
 			docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD}:${TAGHPOOL} . ;\
 		fi \
 	fi
