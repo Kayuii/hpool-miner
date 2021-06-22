@@ -37,6 +37,8 @@ RUN apt-get -qq update \
 
 COPY docker-entrypoint.sh /opt/entrypoint.sh
 
+RUN rm /opt/config.yaml
+
 ENTRYPOINT ["tini", "--", "entrypoint.sh"]
 
 CMD ["hpool-chia-miner"]
