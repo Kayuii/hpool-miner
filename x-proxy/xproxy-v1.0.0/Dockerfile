@@ -30,7 +30,7 @@ COPY --from=builder /opt/x-proxy-linux /opt/x-proxy
 COPY --from=builder /opt/config.yaml /opt/config.yaml
 
 RUN apt-get -qq update \
-    && apt-get -qq install -y --no-install-recommends ca-certificates curl gosu \
+    && apt-get -qq install -y --no-install-recommends ca-certificates curl gosu sqlite3 \
     && cd /opt/ \
     && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini \
     && chmod +x tini \

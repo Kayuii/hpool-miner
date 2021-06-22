@@ -16,6 +16,8 @@ if [ "$1" = "x-proxy" ] ; then
     fi
 
     cat config.yaml
+    chown -R chia ./
+    chown -h chia:chia ./
     mkdir -p "$LOGPATH"
     chown -R chia "$LOGPATH"
     chown -h chia:chia "$LOGPATH"
