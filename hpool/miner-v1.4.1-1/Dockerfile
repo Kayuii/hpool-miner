@@ -20,7 +20,7 @@ RUN apk --no-cache add bash tzdata \
 
 FROM ubuntu:20.04
 
-RUN groupadd -r chia && useradd -r -m -g chia chia
+RUN groupadd -r chia && useradd -r -m -g chia chia && usermod -a -G users,chia chia
 
 ENV PATH=$PATH:/opt
 WORKDIR /opt
