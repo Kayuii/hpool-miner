@@ -12,6 +12,7 @@ update v1.2.0 Increase arm, aarch64 version
 
 2021-06-11 add docker-entrypoint.sh, gosu, tini
 
+- `v1.4.2-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.4.2-1/Dockerfile))
 - `v1.4.1-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.4.1-1/Dockerfile))
 - `v1.4.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.4.0-2/Dockerfile))
 - `v1.3.0-6` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0-6/Dockerfile))
@@ -22,6 +23,7 @@ update v1.2.0 Increase arm, aarch64 version
 
 x-proxy
 
+- `v1.0.1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy/xproxy-v1.0.1/Dockerfile))
 - `v1.0.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy/xproxy-v1.0.0/Dockerfile))
 
 ## Examples
@@ -33,7 +35,7 @@ version: "3"
 
 services:
   miner:
-    image: kayuii/hpool-miner:v1.4.1-1
+    image: kayuii/hpool-miner:v1.4.2-1
     restart: always
     volumes:
       - /mnt/dst:/mnt/dst
@@ -48,7 +50,7 @@ version: "3"
 
 services:
   miner:
-    image: kayuii/hpool-miner:v1.4.1-1
+    image: kayuii/hpool-miner:v1.4.2-1
     restart: always
     volumes:
       - /mnt/dst:/mnt/dst
@@ -59,6 +61,7 @@ services:
       - HOSTNAME=miner
       - LOGPATH=./logs/
       - SCAN=30
+      - LANG=cn
       - PROXY=http://192.168.1.88:9190
     command:
       - hpool-chia-miner
@@ -83,8 +86,9 @@ docker run -itd --rm  --name miner \
     -e 'HOSTNAME=miner' \
     -e 'LOGPATH=./logs/' \
     -e 'SCAN=30' \
+    -e 'LANG=cn' \
     -e 'PROXY=http://192.168.1.88:9190' \
-    kayuii/hpool-miner:v1.4.1-1 hpool-chia-miner
+    kayuii/hpool-miner:v1.4.2-1 hpool-chia-miner
 ```
 
 default config.yaml
@@ -108,6 +112,7 @@ url:
   # The following configuration is changed to
   # proxy: "http://192.168.1.88:9190"
   proxy: ""
+line: cn  # 中国大陆以外地区如果连不上服务器，建议选择日本线路。 jp
 scanPath: false     #是否扫盘
 scanMinute: 60      #扫盘间隔（分钟）
 ```

@@ -36,7 +36,7 @@ fi
 
 if [ "$1" = "hpool-chia-miner" ] ; then
     if [ -n "$DIR" ]; then
-        echo "$(sed "/path: []$/c path: $DIR" config.yaml)" > config.yaml
+        echo "$(sed "/path: \[\]$/c path: $DIR" config.yaml)" > config.yaml
     fi
     if [ -n "$APIKEY" ]; then
         echo "$(sed "/apiKey:$/c apiKey: $APIKEY" config.yaml)" > config.yaml
@@ -48,7 +48,7 @@ if [ "$1" = "hpool-chia-miner" ] ; then
         echo "$(sed "s!proxy: \"\"!proxy: \"$PROXY\"!g" config.yaml)" > config.yaml
     fi
     if [ -n "$LANG" ]; then
-        echo "$(sed "s!line: cn!line: $LANG!g" config.yaml)" > config.yaml
+        echo "$(sed "/line: cn/cline: $LANG" config.yaml)" > config.yaml
     fi
     if [ -n "$LOGPATH" ]; then
         echo "$(sed "s:./log/:$LOGPATH:g" config.yaml)" > config.yaml
