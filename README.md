@@ -4,6 +4,11 @@
 
 An [hpool-chia-miner](https://github.com/hpool-dev/chia-miner) docker image.
 
+## docker hub:
+[hpool-chia-og-miner](https://hub.docker.com/r/kayuii/hpool-miner)
+
+[hpool-chia-pp-miner](https://hub.docker.com/r/kayuii/hpool-pp-miner)
+
 ## Tags
 
 hpool-og-miner
