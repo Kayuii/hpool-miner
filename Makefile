@@ -9,6 +9,7 @@ TARGET_IMAGE_PRD_PP=$(IMAGE_PREFIX)/$(IMAGE_PP)
 
 TAGPRE=$(shell echo "${TRAVIS_TAG}" | cut -c9-13)
 TAGHPOOL=$(shell echo "${TRAVIS_TAG}" | cut -c13-20)
+TAGHPOOL-PP=$(shell echo "${TRAVIS_TAG}" | cut -c16-23)
 
 all: hpool-miner hpool-pp-miner xproxy
 
@@ -27,11 +28,11 @@ hpool-miner:
 
 hpool-pp-miner:
 	if [ "${TRAVIS_BRANCH}" = "master" ]; then \
-		cd "hpool-pp/miner-${TAGHPOOL}/"; \
+		cd "hpool-pp/miner-${TAGHPOOL-PP}/"; \
 		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:latest . ;\
 	else \
-		cd "hpool-pp/miner-${TAGHPOOL}/"; \
-		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:${TAGHPOOL} . ;\
+		cd "hpool-pp/miner-${TAGHPOOL-PP}/"; \
+		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:${TAGHPOOL-PP} . ;\
 	fi
 
 xproxy:
