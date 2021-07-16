@@ -6,7 +6,7 @@ An [hpool-chia-miner](https://github.com/hpool-dev/chia-miner) docker image.
 
 ## Tags
 
-hpool-miner
+hpool-og-miner
 
 update v1.2.0 Increase arm, aarch64 version
 
@@ -25,6 +25,11 @@ x-proxy
 
 - `v1.0.1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy/xproxy-v1.0.1/Dockerfile))
 - `v1.0.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy/xproxy-v1.0.0/Dockerfile))
+
+
+hpool-pp-miner
+
+- `v1.5.0-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-pp/miner-v1.5.0-1/Dockerfile))
 
 ## Examples
 
