@@ -33,7 +33,9 @@ hpool-pp-miner
 
 ## Examples
 
-`docker-compose` example for hpool-miner:
+### for hpool-og-miner
+
+`docker-compose` example :
 
 ```yml
 version: "3"
@@ -118,6 +120,88 @@ url:
   # proxy: "http://192.168.1.88:9190"
   proxy: ""
 line: cn  # 中国大陆以外地区如果连不上服务器，建议选择日本线路。 jp
+scanPath: false     #是否扫盘
+scanMinute: 60      #扫盘间隔（分钟）
+```
+
+
+
+### for hpool-pp-miner
+
+`docker-compose` example :
+
+```yml
+version: "3"
+
+services:
+  miner:
+    image: kayuii/hpool-pp-miner:v1.5.0-1
+    restart: always
+    volumes:
+      - /mnt/dst:/mnt/dst
+      - /opt/chia/logs:/opt/log
+      - /opt/chia/config.yaml:/opt/config.yaml
+    command:
+      - hpool-chiapp-miner
+```
+or
+```yml
+version: "3"
+
+services:
+  miner:
+    image: kayuii/hpool-pp-miner:v1.5.0-1
+    restart: always
+    volumes:
+      - /mnt/dst:/mnt/dst
+      - /opt/chia/logs:/opt/log
+    environment:
+      - DIR=["/mnt/dst"]
+      - APIKEY=1df8e525-772f-40e9-908d-0f26e36f8046
+      - HOSTNAME=miner
+      - LOGPATH=./logs/
+      - SCAN=30
+    command:
+      - hpool-chiapp-miner
+```
+
+command-line example:
+
+```sh
+docker run -itd --rm  --name miner \
+    -v "/mnt/dst:/mnt/dst" \
+    -v "/opt/chia/logs:/opt/log" \
+    -v "/opt/chia/config.yaml:/opt/config.yaml" \
+    kayuii/hpool-pp-miner:v1.5.0-1 hpool-chiapp-miner
+```
+or
+```sh
+docker run -itd --rm  --name miner \
+    -v "/mnt/dst:/mnt/dst" \
+    -v "/opt/chia/logs:/opt/log" \
+    -e 'DIR=["/mnt/dst"]' \
+    -e "APIKEY=1df8e525-772f-40e9-908d-0f26e36f8046" \
+    -e 'HOSTNAME=miner' \
+    -e 'LOGPATH=./logs/' \
+    -e 'SCAN=30' \
+    kayuii/hpool-pp-miner:v1.5.0-1 hpool-chiapp-miner
+```
+
+default config.yaml
+
+```yaml
+path:            #扫盘路径
+minerName:          #矿机名称（自定义）
+apiKey:             #hpool apikey
+cachePath: ""
+deviceId: ""
+extraParams: {}
+log:
+  lv: info
+  path: ./log/
+  name: miner.log
+url:
+  proxy: ""
 scanPath: false     #是否扫盘
 scanMinute: 60      #扫盘间隔（分钟）
 ```
