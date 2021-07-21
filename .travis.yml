@@ -3,7 +3,7 @@ language: ruby
 branches:
   only:
   - master
-  - /^hpool-miner-v.*$/
+  - /^hpool-og-miner-v.*$/
   - /^hpool-pp-miner-v.*$/
   - /^xproxy-v.*$/
 
@@ -29,8 +29,6 @@ before_install:
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - if [[ "$TRAVIS_BRANCH" = "master" ]];then TRAVIS_TAG=$(git describe --abbrev=0); fi
-  - TAG=$(echo "${TRAVIS_TAG:13}" | sed 's/\.//g' | sed 's/^[^-]*-//' )
-  - echo "${TAG}"
   - if [[ "${TRAVIS_TAG:0:6}" = "xproxy" ]];then make xproxy; fi
-  - if [[ "${TRAVIS_TAG:0:11}" = "hpool-og-miner" ]];then make TAG=${TAG} hpool-og-miner; fi
+  - if [[ "${TRAVIS_TAG:0:14}" = "hpool-og-miner" ]];then make TAG=${TAG} hpool-og-miner; fi
   - if [[ "${TRAVIS_TAG:0:14}" = "hpool-pp-miner" ]];then make TAG=${TAG} hpool-pp-miner; fi

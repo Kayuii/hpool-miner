@@ -8,7 +8,7 @@ TARGET_IMAGE_PRD_OG=$(IMAGE_PREFIX)/$(IMAGE_OG)
 TARGET_IMAGE_PRD_PP=$(IMAGE_PREFIX)/$(IMAGE_PP)
 
 TAGPRE=$(shell echo "${TRAVIS_TAG}" | cut -c9-13)
-TAGHPOOL=$(shell echo "${TRAVIS_TAG}" | cut -c13-20)
+TAGHPOOL=$(shell echo "${TRAVIS_TAG}" | cut -c16-23)
 TAGHPOOL-PP=$(shell echo "${TRAVIS_TAG}" | cut -c16-23)
 
 all: hpool-og-miner hpool-pp-miner xproxy
