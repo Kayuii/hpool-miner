@@ -5,7 +5,8 @@ branches:
   - master
   - /^hpool-og-miner-v.*$/
   - /^hpool-pp-miner-v.*$/
-  - /^xproxy-v.*$/
+  - /^xproxy-og-v.*$/
+  - /^xproxy-pp-v.*$/
 
 services:
 - docker
@@ -29,6 +30,7 @@ before_install:
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - if [[ "$TRAVIS_BRANCH" = "master" ]];then TRAVIS_TAG=$(git describe --abbrev=0); fi
-  - if [[ "${TRAVIS_TAG:0:6}" = "xproxy" ]];then make xproxy; fi
+  - if [[ "${TRAVIS_TAG:0:9}" = "xproxy-og" ]];then make xproxy-og; fi
+  - if [[ "${TRAVIS_TAG:0:9}" = "xproxy-pp" ]];then make xproxy-pp; fi
   - if [[ "${TRAVIS_TAG:0:14}" = "hpool-og-miner" ]];then make TAG=${TAG} hpool-og-miner; fi
   - if [[ "${TRAVIS_TAG:0:14}" = "hpool-pp-miner" ]];then make TAG=${TAG} hpool-pp-miner; fi

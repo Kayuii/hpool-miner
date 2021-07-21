@@ -31,11 +31,19 @@ hpool-pp-miner:
 		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:${TAGHPOOL-PP} . ;\
 	fi
 
-xproxy:
+xproxy-og:
 	if [ "${TRAVIS_BRANCH}" = "master" ]; then \
 		echo "${TRAVIS_BRANCH}"; \
 	else \
-		cd "x-proxy/xproxy-v${TAGPRE}/"; \
+		cd "x-proxy-og/xproxy-v${TAGPRE}/"; \
+		docker buildx build --push --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:$(TRAVIS_TAG) . ;\
+	fi
+
+xproxy-pp:
+	if [ "${TRAVIS_BRANCH}" = "master" ]; then \
+		echo "${TRAVIS_BRANCH}"; \
+	else \
+		cd "x-proxy-pp/xproxy-v${TAGPRE}/"; \
 		docker buildx build --push --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:$(TRAVIS_TAG) . ;\
 	fi
 
