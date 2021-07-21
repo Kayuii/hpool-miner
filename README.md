@@ -5,7 +5,7 @@
 An [hpool-chia-miner](https://github.com/hpool-dev/chia-miner) docker image.
 
 ## docker hub:
-[hpool-chia-og-miner](https://hub.docker.com/r/kayuii/hpool-miner)
+[hpool-chia-og-miner](https://hub.docker.com/r/kayuii/hpool-og-miner)
 
 [hpool-chia-pp-miner](https://hub.docker.com/r/kayuii/hpool-pp-miner)
 
@@ -17,14 +17,10 @@ update v1.2.0 Increase arm, aarch64 version
 
 2021-06-11 add docker-entrypoint.sh, gosu, tini
 
-- `v1.4.2-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.4.2-1/Dockerfile))
-- `v1.4.1-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.4.1-1/Dockerfile))
-- `v1.4.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.4.0-2/Dockerfile))
-- `v1.3.0-6` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0-6/Dockerfile))
-- `v1.3.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.3.0/Dockerfile))
-- `v1.2.0-5` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.2.0-5/Dockerfile))
-- `v1.2.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.2.0/Dockerfile))
-- `v1.1.1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool/miner-v1.1.1/Dockerfile))
+- `v1.5.0-7` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.5.0-7/Dockerfile))
+- `v1.4.2-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.4.2-1/Dockerfile))
+- `v1.4.1-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.4.1-1/Dockerfile))
+- `v1.4.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.4.0-2/Dockerfile))
 
 x-proxy
 
@@ -34,6 +30,7 @@ x-proxy
 
 hpool-pp-miner
 
+- `v1.5.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-pp/miner-v1.5.0-2/Dockerfile))
 - `v1.5.0-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-pp/miner-v1.5.0-1/Dockerfile))
 
 ## Examples
@@ -47,7 +44,7 @@ version: "3"
 
 services:
   miner:
-    image: kayuii/hpool-miner:v1.4.2-1
+    image: kayuii/hpool-miner:v1.5.0-7
     restart: always
     volumes:
       - /mnt/dst:/mnt/dst
@@ -62,7 +59,7 @@ version: "3"
 
 services:
   miner:
-    image: kayuii/hpool-miner:v1.4.2-1
+    image: kayuii/hpool-miner:v1.5.0-7
     restart: always
     volumes:
       - /mnt/dst:/mnt/dst
@@ -100,7 +97,7 @@ docker run -itd --rm  --name miner \
     -e 'SCAN=30' \
     -e 'LANG=cn' \
     -e 'PROXY=http://192.168.1.88:9190' \
-    kayuii/hpool-miner:v1.4.2-1 hpool-chia-miner
+    kayuii/hpool-miner:v1.5.0-7 hpool-chia-miner
 ```
 
 default config.yaml
@@ -140,7 +137,7 @@ version: "3"
 
 services:
   miner:
-    image: kayuii/hpool-pp-miner:v1.5.0-1
+    image: kayuii/hpool-pp-miner:v1.5.0-2
     restart: always
     volumes:
       - /mnt/dst:/mnt/dst
@@ -155,7 +152,7 @@ version: "3"
 
 services:
   miner:
-    image: kayuii/hpool-pp-miner:v1.5.0-1
+    image: kayuii/hpool-pp-miner:v1.5.0-2
     restart: always
     volumes:
       - /mnt/dst:/mnt/dst
@@ -177,7 +174,7 @@ docker run -itd --rm  --name miner \
     -v "/mnt/dst:/mnt/dst" \
     -v "/opt/chia/logs:/opt/log" \
     -v "/opt/chia/config.yaml:/opt/config.yaml" \
-    kayuii/hpool-pp-miner:v1.5.0-1 hpool-chiapp-miner
+    kayuii/hpool-pp-miner:v1.5.0-2 hpool-chiapp-miner
 ```
 or
 ```sh
@@ -189,7 +186,7 @@ docker run -itd --rm  --name miner \
     -e 'HOSTNAME=miner' \
     -e 'LOGPATH=./logs/' \
     -e 'SCAN=30' \
-    kayuii/hpool-pp-miner:v1.5.0-1 hpool-chiapp-miner
+    kayuii/hpool-pp-miner:v1.5.0-2 hpool-chiapp-miner
 ```
 
 default config.yaml

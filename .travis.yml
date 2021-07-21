@@ -32,5 +32,5 @@ script:
   - TAG=$(echo "${TRAVIS_TAG:13}" | sed 's/\.//g' | sed 's/^[^-]*-//' )
   - echo "${TAG}"
   - if [[ "${TRAVIS_TAG:0:6}" = "xproxy" ]];then make xproxy; fi
-  - if [[ "${TRAVIS_TAG:0:11}" = "hpool-miner" ]];then make TAG=${TAG} hpool-miner; fi
+  - if [[ "${TRAVIS_TAG:0:11}" = "hpool-og-miner" ]];then make TAG=${TAG} hpool-og-miner; fi
   - if [[ "${TRAVIS_TAG:0:14}" = "hpool-pp-miner" ]];then make TAG=${TAG} hpool-pp-miner; fi
