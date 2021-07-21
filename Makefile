@@ -7,7 +7,7 @@ IMAGE_PP:=hpool-pp-miner
 TARGET_IMAGE_PRD_OG=$(IMAGE_PREFIX)/$(IMAGE_OG)
 TARGET_IMAGE_PRD_PP=$(IMAGE_PREFIX)/$(IMAGE_PP)
 
-TAGPRE=$(shell echo "${TRAVIS_TAG}" | cut -c9-13)
+TAGPRE=$(shell echo "${TRAVIS_TAG}" | cut -c12-16)
 TAGHPOOL=$(shell echo "${TRAVIS_TAG}" | cut -c16-23)
 TAGHPOOL-PP=$(shell echo "${TRAVIS_TAG}" | cut -c16-23)
 
