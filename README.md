@@ -72,6 +72,7 @@ services:
       - SCAN=30
       - LANG=cn
       - PROXY=http://192.168.1.88:9190
+      - MTLOAD=true
     command:
       - hpool-chia-miner
 ```
@@ -97,15 +98,17 @@ docker run -itd --rm  --name miner \
     -e 'SCAN=30' \
     -e 'LANG=cn' \
     -e 'PROXY=http://192.168.1.88:9190' \
+    -e 'MTLOAD=true' \
     kayuii/hpool-miner:v1.5.0-7 hpool-chia-miner
 ```
 
 default config.yaml
 
 ```yaml
-path:            #扫盘路径
-minerName:          #矿机名称（自定义）
-apiKey:             #hpool apikey
+token: ""
+path: []                   #扫盘路径
+minerName:                 #矿机名称（自定义）
+apiKey:                    #hpool apikey
 cachePath: ""
 deviceId: ""
 extraParams: {}
@@ -114,19 +117,18 @@ log:
   path: ./log/
   name: miner.log
 url:
-  # 一个局域网内，代理只需要开一台就可以了，如代理所在的机器Ip是192.168.1.88，端口9190
-  # 下面配置改为
-  # proxy: "http://192.168.1.88:9190"
-  # In a local area network, only one proxy is required. For example, the IP of the machine where the proxy is located is 192.168.1.88 and the port is 9190
-  # The following configuration is changed to
-  # proxy: "http://192.168.1.88:9190"
-  proxy: ""
-line: cn  # 中国大陆以外地区如果连不上服务器，建议选择日本线路。 jp
-scanPath: false     #是否扫盘
-scanMinute: 60      #扫盘间隔（分钟）
+  info: ""
+  submit: ""
+  line: ""
+  ws: ""
+  proxy: ""                # 一个局域网内，代理只需要开一台就可以了，如代理所在的机器Ip是192.168.1.88，端口9190
+scanPath: false            #是否扫盘
+scanMinute: 60             #扫盘间隔（分钟）
+debug: ""
+language: cn
+line: cn                   # 中国大陆以外地区如果连不上服务器，建议选择日本线路。 jp
+multithreadingLoad: false  # 文件扫盘方式  false 单盘逐个加载 true 多盘同时加载
 ```
-
-
 
 ### for hpool-pp-miner
 
