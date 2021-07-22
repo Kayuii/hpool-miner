@@ -22,16 +22,20 @@ update v1.2.0 Increase arm, aarch64 version
 - `v1.4.1-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.4.1-1/Dockerfile))
 - `v1.4.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.4.0-2/Dockerfile))
 
-x-proxy
+x-proxy-og
 
-- `v1.0.1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy/xproxy-v1.0.1/Dockerfile))
-- `v1.0.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy/xproxy-v1.0.0/Dockerfile))
+- `v1.0.4` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy-og/xproxy-v1.0.4/Dockerfile))
+- `v1.0.1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy-og/xproxy-v1.0.1/Dockerfile))
 
 
 hpool-pp-miner
 
 - `v1.5.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-pp/miner-v1.5.0-2/Dockerfile))
 - `v1.5.0-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-pp/miner-v1.5.0-1/Dockerfile))
+
+x-proxy-pp
+
+- `v1.0.4` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy-pp/xproxy-v1.0.4/Dockerfile))
 
 ## Examples
 
