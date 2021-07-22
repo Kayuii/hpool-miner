@@ -26,7 +26,7 @@ WORKDIR /opt
 
 COPY --from=builder /etc/localtime /etc
 COPY --from=builder /etc/timezone /etc
-COPY --from=builder /opt/x-proxy-linux /opt/x-proxy
+COPY --from=builder /opt/x-proxy-pp-linux /opt/x-proxy
 COPY --from=builder /opt/config.yaml /opt/config.yaml
 
 RUN apt-get -qq update \
