@@ -11,7 +11,7 @@ TAGPRE=$(shell echo "${TRAVIS_TAG}" | cut -c12-16)
 TAGHPOOL=$(shell echo "${TRAVIS_TAG}" | cut -c16-23)
 TAGHPOOL-PP=$(shell echo "${TRAVIS_TAG}" | cut -c16-23)
 
-all: hpool-og-miner hpool-pp-miner xproxy
+all: hpool-og-miner hpool-pp-miner xproxy-pp xproxy-og
 
 hpool-og-miner:
 	if [ "${TRAVIS_BRANCH}" = "master" ]; then \
@@ -44,7 +44,7 @@ xproxy-pp:
 		echo "${TRAVIS_BRANCH}"; \
 	else \
 		cd "x-proxy-pp/xproxy-v${TAGPRE}/"; \
-		docker buildx build --push --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:$(TRAVIS_TAG) . ;\
+		docker buildx build --push --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:$(TRAVIS_TAG) . ;\
 	fi
 
-.PHONY: hpool-miner hpool-pp-miner xproxy
+.PHONY: hpool-og-miner hpool-pp-miner xproxy-pp xproxy-og
