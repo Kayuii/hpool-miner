@@ -42,8 +42,8 @@ if [ "$1" = "x-proxy" ] ; then
         sed -i "s:proxy.db:$DBDIR:g" config.yaml
     fi
 
-    sed -i "s:apiKey: \"mass\":apiKey: \"$MASSAPI\":g" config.yaml
-    sed -i "s:apiKey: \"chia\":apiKey: \"$CHIAAPI\":g" config.yaml
+    sed -i "s/apiKey: \"mass\"/apiKey: \"$MASSAPI\"/g" config.yaml
+    sed -i "s/apiKey: \"chia\"/apiKey: \"$CHIAAPI\"/g" config.yaml
 
     cat config.yaml
     chown -R chia ./
