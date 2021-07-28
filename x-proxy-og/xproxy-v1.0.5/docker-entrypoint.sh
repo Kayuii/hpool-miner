@@ -36,10 +36,10 @@ if [ "$1" = "x-proxy" ] ; then
         sed -i "s#out: \"./log/proxy.log\"#out: \"$LOGPATH\"#g" config.yaml
     fi
     if [ -n "$DBDIR" ]; then
-        sed -i "s/dbFile: \"proxy.db\"/dbFile: \"$DBDIR\"/g" config.yaml
+        sed -i "s#dbFile: \"proxy.db\"#dbFile: \"$DBDIR\"#g" config.yaml
     else
         DBDIR=/opt/db/proxy.db
-        sed -i "s/dbFile: \"proxy.db\"/dbFile: \"$DBDIR\"/g" config.yaml
+        sed -i "s#dbFile: \"proxy.db\"#dbFile: \"$DBDIR\"#g" config.yaml
     fi
 
     sed -i "s/apiKey: \"mass\"/apiKey: \"$MASSAPI\"/g" config.yaml
