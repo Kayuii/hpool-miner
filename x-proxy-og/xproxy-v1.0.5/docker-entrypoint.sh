@@ -15,7 +15,7 @@ server:
 log:
   level: "info"
   out: "./log/proxy.log"
-dbFile: "/opt/db/proxy.db"
+dbFile: "proxy.db"
 chains:
   -
     chain: mass
