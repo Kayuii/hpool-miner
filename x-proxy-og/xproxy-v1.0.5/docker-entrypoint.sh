@@ -30,10 +30,10 @@ if [ "$1" = "x-proxy" ] ; then
     mkdir -p /opt/log/ /opt/db/
 
     if [ -n "$LOGPATH" ]; then
-        sed -i "s/out: \"./log/proxy.log\"/out: \"$LOGPATH\"/g" config.yaml
+        sed -i "s#out: \"./log/proxy.log\"#out: \"$LOGPATH\"#g" config.yaml
     else
         LOGPATH=/opt/log/proxy.log
-        sed -i "s/out: \"./log/proxy.log\"/out: \"$LOGPATH\"/g" config.yaml
+        sed -i "s#out: \"./log/proxy.log\"#out: \"$LOGPATH\"#g" config.yaml
     fi
     if [ -n "$DBDIR" ]; then
         sed -i "s/dbFile: \"proxy.db\"/dbFile: \"$DBDIR\"/g" config.yaml
