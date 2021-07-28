@@ -5,6 +5,7 @@ if [ $(echo "$1" | cut -c1) = "-" ]; then
     echo "$0: assuming arguments for x-proxy"
     set -- x-proxy "$@"
 fi
+
 if [ ! -f config.yaml ]; then
 cat <<-EOF > "/opt/config.yaml"
 server:
@@ -14,7 +15,6 @@ server:
 log:
   level: "info"
   out: "./log/proxy.log"
-dbFile: "proxy.db"
 dbFile: "/opt/db/proxy.db"
 chains:
   -

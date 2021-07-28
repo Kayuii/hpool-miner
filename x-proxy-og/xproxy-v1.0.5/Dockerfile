@@ -34,7 +34,8 @@ RUN apt-get -qq update \
     && cd /opt/ \
     && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini \
     && chmod +x tini \
-    && ls -al /opt/
+    && ls -al /opt/ \
+    && rm /opt/config.yaml
 
 EXPOSE 9190
 
