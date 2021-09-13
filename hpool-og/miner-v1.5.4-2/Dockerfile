@@ -12,6 +12,7 @@ RUN apk --no-cache add bash tzdata \
  && mkdir -p /tmp/linux \
  && /tmp/arch.sh ${VER} \
  && mv /tmp/linux/* /opt/ \
+ && rm /opt/*.zip \
  && cp /usr/share/zoneinfo/$TZ /etc/localtime \
  && echo $TZ > /etc/timezone \
  && cat /etc/timezone \
@@ -27,7 +28,7 @@ WORKDIR /opt
 
 COPY --from=builder /etc/localtime /etc
 COPY --from=builder /etc/timezone /etc
-COPY --from=builder /opt/hpool-miner-chia /opt
+COPY --from=builder /opt/hpool-* /opt
 
 RUN apt-get -qq update \
     && apt-get -qq install -y --no-install-recommends ca-certificates curl gosu tini \
