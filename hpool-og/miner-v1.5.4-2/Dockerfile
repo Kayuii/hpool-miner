@@ -12,7 +12,7 @@ RUN apk --no-cache add bash tzdata \
  && mkdir -p /tmp/linux \
  && /tmp/arch.sh ${VER} \
  && mv /tmp/linux/* /opt/ \
- && rm /opt/*.zip \
+ && find /opt/ -name "*.zip" -type f -exec rm -rf {} \; \
  && cp /usr/share/zoneinfo/$TZ /etc/localtime \
  && echo $TZ > /etc/timezone \
  && cat /etc/timezone \
