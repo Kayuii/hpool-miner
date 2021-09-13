@@ -27,7 +27,7 @@ WORKDIR /opt
 
 COPY --from=builder /etc/localtime /etc
 COPY --from=builder /etc/timezone /etc
-COPY --from=builder /opt/hpool-* /opt
+COPY --from=builder /opt/hpool-miner-chia /opt
 
 RUN apt-get -qq update \
     && apt-get -qq install -y --no-install-recommends ca-certificates curl gosu tini \
