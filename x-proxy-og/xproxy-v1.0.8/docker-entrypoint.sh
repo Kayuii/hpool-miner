@@ -23,6 +23,12 @@ chains:
   -
     chain: chia
     apiKey: "chia"
+# socket5 or http proxy
+proxy:
+  # E.g http://127.0.0.1:8888 socket5://127.0.0.1:8888
+  url: ""
+  username: ""
+  password: ""
 EOF
 fi
 
