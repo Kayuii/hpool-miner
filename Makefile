@@ -16,10 +16,10 @@ all: hpool-og-miner hpool-pp-miner xproxy-pp xproxy-og
 hpool-og-miner:
 	if [ "${TRAVIS_BRANCH}" = "master" ]; then \
 		cd "hpool-og/miner-${TAGHPOOL}/"; \
-		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:latest . ;\
+		docker buildx build --push --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:latest . ;\
 	else \
 		cd "hpool-og/miner-${TAGHPOOL}/"; \
-		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:${TAGHPOOL} . ;\
+		docker buildx build --push --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:${TAGHPOOL} . ;\
 	fi
 
 hpool-pp-miner:
