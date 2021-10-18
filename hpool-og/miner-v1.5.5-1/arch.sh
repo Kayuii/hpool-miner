@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ "$TARGETARCH" = "amd64" ] ; then ARCH=linux;fi
+if [ "$TARGETARCH" = "amd64" ] ; then ARCH=amd64;fi
 if [ "$TARGETARCH" = "arm64" ] ; then ARCH=aarch64;fi
 if [ "$TARGETARCH" = "arm" ] ; then ARCH=arm;fi
 VER=$1
