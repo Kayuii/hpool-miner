@@ -15,7 +15,7 @@ trigger:
 
 steps:
 - name: env
-  image: alpine/git
+  image: docker:git
   commands:
   - |
     if [ $CI_BUILD_EVENT = "tag" ]; then
