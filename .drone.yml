@@ -18,10 +18,9 @@ trigger:
 
 
 steps:
-- name: fetch
-  image: alpine/git
+- name: env
   commands:
-  - git fetch --tags
+  - echo $DRONE_TAG
 
 
 
