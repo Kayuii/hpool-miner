@@ -17,33 +17,33 @@ update v1.2.0 Increase arm, aarch64 version
 
 2021-06-11 add docker-entrypoint.sh, gosu, tini
 
-- `v1.5.6-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.5.6-1/Dockerfile))
-- `v1.5.3-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.5.3-1/Dockerfile))
-- `v1.5.2-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.5.2-1/Dockerfile))
-- `v1.5.1-3` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.5.1-3/Dockerfile))
-- `v1.5.0-7` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.5.0-7/Dockerfile))
-- `v1.4.2-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.4.2-1/Dockerfile))
-- `v1.4.1-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.4.1-1/Dockerfile))
-- `v1.4.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-og/miner-v1.4.0-2/Dockerfile))
+- `v1.5.6-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-og/miner-v1.5.6-1/Dockerfile))
+- `v1.5.3-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-og/miner-v1.5.3-1/Dockerfile))
+- `v1.5.2-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-og/miner-v1.5.2-1/Dockerfile))
+- `v1.5.1-3` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-og/miner-v1.5.1-3/Dockerfile))
+- `v1.5.0-7` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-og/miner-v1.5.0-7/Dockerfile))
+- `v1.4.2-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-og/miner-v1.4.2-1/Dockerfile))
+- `v1.4.1-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-og/miner-v1.4.1-1/Dockerfile))
+- `v1.4.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-og/miner-v1.4.0-2/Dockerfile))
 
 x-proxy-og
 
-- `v1.0.9` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy-og/xproxy-v1.0.9/Dockerfile))
-- `v1.6.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy-og/xproxy-v1.6.0/Dockerfile))
-- `v1.0.5` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy-og/xproxy-v1.0.5/Dockerfile))
-- `v1.0.4` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy-og/xproxy-v1.0.4/Dockerfile))
+- `v1.0.9` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/x-proxy-og/xproxy-v1.0.9/Dockerfile))
+- `v1.6.0` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/x-proxy-og/xproxy-v1.6.0/Dockerfile))
+- `v1.0.5` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/x-proxy-og/xproxy-v1.0.5/Dockerfile))
+- `v1.0.4` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/x-proxy-og/xproxy-v1.0.4/Dockerfile))
 
 
 hpool-pp-miner
 
-- `v1.5.3-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-pp/miner-v1.5.0-2/Dockerfile))
-- `v1.5.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-pp/miner-v1.5.0-2/Dockerfile))
-- `v1.5.0-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/hpool-pp/miner-v1.5.0-1/Dockerfile))
+- `v1.5.3-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-pp/miner-v1.5.0-2/Dockerfile))
+- `v1.5.0-2` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-pp/miner-v1.5.0-2/Dockerfile))
+- `v1.5.0-1` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/hpool-pp/miner-v1.5.0-1/Dockerfile))
 
 x-proxy-pp
 
-- `v1.0.7` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy-pp/xproxy-v1.0.7/Dockerfile))
-- `v1.0.4` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/x-proxy-pp/xproxy-v1.0.4/Dockerfile))
+- `v1.0.7` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/x-proxy-pp/xproxy-v1.0.7/Dockerfile))
+- `v1.0.4` ([Dockerfile](https://github.com/Kayuii/hpool-miner/blob/master/old/x-proxy-pp/xproxy-v1.0.4/Dockerfile))
 
 ## Examples
 

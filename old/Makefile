@@ -16,19 +16,19 @@ all: hpool-og-miner hpool-pp-miner xproxy-pp xproxy-og
 hpool-og-miner:
 	if [ "${TRAVIS_BRANCH}" = "master" ]; then \
 		cd "hpool-og/miner-${TAGHPOOL}/"; \
-		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:latest . ;\
+		docker buildx build --push --progress "plain" --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:latest . ;\
 	else \
 		cd "hpool-og/miner-${TAGHPOOL}/"; \
-		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:${TAGHPOOL} . ;\
+		docker buildx build --push --progress "plain" --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:${TAGHPOOL} . ;\
 	fi
 
 hpool-pp-miner:
 	if [ "${TRAVIS_BRANCH}" = "master" ]; then \
 		cd "hpool-pp/miner-${TAGHPOOL-PP}/"; \
-		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:latest . ;\
+		docker buildx build --push --progress "plain" --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:latest . ;\
 	else \
 		cd "hpool-pp/miner-${TAGHPOOL-PP}/"; \
-		docker buildx build --push --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:${TAGHPOOL-PP} . ;\
+		docker buildx build --push --progress "plain" --platform "linux/amd64,linux/arm64,linux/arm" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:${TAGHPOOL-PP} . ;\
 	fi
 
 xproxy-og:
@@ -36,7 +36,7 @@ xproxy-og:
 		echo "${TRAVIS_BRANCH}"; \
 	else \
 		cd "x-proxy-og/xproxy-v${TAGPRE}/"; \
-		docker buildx build --push --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:$(TRAVIS_TAG) . ;\
+		docker buildx build --push --progress "plain" --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_OG}:$(TRAVIS_TAG) . ;\
 	fi
 
 xproxy-pp:
@@ -44,7 +44,7 @@ xproxy-pp:
 		echo "${TRAVIS_BRANCH}"; \
 	else \
 		cd "x-proxy-pp/xproxy-v${TAGPRE}/"; \
-		docker buildx build --push --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:$(TRAVIS_TAG) . ;\
+		docker buildx build --push --progress "plain" --platform "linux/amd64" -f Dockerfile -t ${TARGET_IMAGE_PRD_PP}:$(TRAVIS_TAG) . ;\
 	fi
 
 .PHONY: hpool-og-miner hpool-pp-miner xproxy-pp xproxy-og

@@ -1,0 +1,159 @@
+---
+kind: pipeline
+type: docker
+name: check_chia_og
+
+trigger:
+  event:
+  - cron
+
+steps:
+- name: check
+  image: kayuii/github-checker
+  commands:
+  - github-checker hpool-dev/chia-miner
+  - URL=$(cat chia-og/version | github-checker hpool-dev/chia-miner)
+  - XPROXY=$(echo "$URL" | grep xproxy)
+  - HPOOL_LINUX=$(echo "$URL" | grep linux)
+  - |
+    if [ -n $XPROXY ]; then
+      mkdir -p chia-og/tmp
+      wget -qO ./chia-og/tmp/xproxy.zip $XPROXY
+      wget -qO ./chia-og/tmp/linux.zip $HPOOL_LINUX
+      github-checker hpool-dev/chia-miner | tee chia-og/version
+      cd chia-og
+      unzip tmp/xproxy.zip -d "tmp"
+      unzip tmp/linux.zip -d "tmp"
+    else
+      false
+    fi
+  # - export BUILD_TAG=$(cat version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
+
+- name: update-tag
+  image: alpine/git
+  commands:
+  - ls -lARFh
+  when:
+    status:
+    - success
+
+- name: publish-chia-og
+  image: thegeeklab/drone-docker-buildx
+  privileged: true
+  settings:
+    platforms: "linux/amd64,linux/arm64,linux/arm"
+    dockerfile: chia-og/Dockerfile
+    repo: kayuii/hpool-miner
+    context: chia-og
+  when:
+    event:
+    - cron
+    cron:
+    - weekly
+
+---
+kind: pipeline
+type: docker
+name: build
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  ref:
+  - refs/head/main
+
+steps:
+- name: status
+  image: kayuii/github-checker
+  commands:
+  - github-checker hpool-dev/chia-miner
+
+# - name: publish-latest
+#   image: thegeeklab/drone-docker-buildx
+#   privileged: true
+#   settings:
+#     platforms: "linux/amd64,linux/arm64,linux/arm"
+#     dockerfile: chia-og/Dockerfile
+#     repo: kayuii/hpool-miner
+#     context: chia-og
+#     username:
+#       from_secret: docker_username
+#     password:
+#       from_secret: docker_password
+
+
+---
+kind: pipeline
+type: docker
+name: build-tag
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  ref:
+  - refs/tags/**
+
+steps:
+- name: publish-chia-og
+  image: thegeeklab/drone-docker-buildx
+  privileged: true
+  settings:
+    auto_tag: true
+    platforms: "linux/amd64,linux/arm64,linux/arm"
+    dockerfile: chia-og/Dockerfile
+    repo: kayuii/hpool-miner
+    context: chia-og
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    ref:
+    - refs/tags/hpool-og-miner-v**
+
+# steps:
+# - name: env
+#   image: docker:git
+#   commands:
+#   - |
+#     if [ $CI_BUILD_EVENT = "tag" ]; then
+#       export BUILD_TAG=$DRONE_TAG
+#     else
+#       git fetch --tags
+#       export BUILD_TAG=$(git describe)
+#     fi
+#     export TAGPRE=$(echo "${BUILD_TAG}" | cut -c12-16)
+#     export TAGHPOOL=$(echo "${BUILD_TAG}" | cut -c16-23)
+#     export TAGHPOOL_PP=$(echo "${BUILD_TAG}" | cut -c16-23)
+#   - echo $$BUILD_TAG
+#   - echo $$TAGPRE
+#   - echo $$TAGHPOOL
+#   - echo $$TAGHPOOL_PP
+
+
+# - name: backend
+#   image: plugins/docker
+#   settings:
+#     repo: kayuii/hpool-miner
+#     dockerfile: ./Dockerfile
+#     username: kayuii
+#     password:
+#       from_secret: DOCKER_PWD
+#     tags: dev
+#   depends_on:
+#   - env
+#   when:
+#     ref:
+#     - refs/heads/master
+
+# depends_on:
+#   - checkrepo
+
+# volumes:
+# - name: dockersock
+#   host:
+#     path: /var/run/docker.sock
