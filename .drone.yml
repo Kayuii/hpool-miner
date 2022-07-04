@@ -10,10 +10,7 @@ platform:
 trigger:
   ref:
   - refs/heads/master
-  - refs/tags/pool-og-miner-v.*
-  - refs/tags/pool-pp-miner-v.*
-  - refs/tags/proxy-og-v.*
-  - refs/tags/proxy-pp-v.*
+  - refs/tags/**
 
 
 steps:
