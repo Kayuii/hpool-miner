@@ -20,7 +20,8 @@ steps:
 - name: env
   image: ubuntu
   commands:
-  - echo $DRONE_TAG
+  - echo $$DRONE_TAG
+  - export
 
 
 
