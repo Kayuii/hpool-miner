@@ -18,6 +18,7 @@ trigger:
 
 steps:
 - name: env
+  images: ubuntu
   commands:
   - echo $DRONE_TAG
 
