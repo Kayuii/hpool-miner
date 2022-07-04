@@ -23,6 +23,8 @@ steps:
     else
       export BUILD_TAG=$(git describe)
     fi
+  - ls -al
+  - git describe
   - echo $$BUILD_TAG
   - export
 
