@@ -17,6 +17,7 @@ steps:
 - name: env
   image: docker:git
   commands:
+  - git fetch --tags
   - |
     if [ $CI_BUILD_EVENT = "tag" ]; then
       export BUILD_TAG=$DRONE_TAG
