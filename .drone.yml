@@ -15,13 +15,12 @@ trigger:
 
 steps:
 - name: env
-  image: git
+  image: alpine/git
   commands:
   - |
     if [ $CI_BUILD_EVENT = "tag" ]; then
       export BUILD_TAG=$DRONE_TAG
     else
-
       export BUILD_TAG=$(git describe)
     fi
   - echo $$BUILD_TAG
