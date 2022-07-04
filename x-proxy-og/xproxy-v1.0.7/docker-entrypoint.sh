@@ -23,12 +23,21 @@ chains:
   -
     chain: chia
     apiKey: "chia"
+# socket5 or http proxy
+proxy:
+  # E.g http://127.0.0.1:8888 socket5://127.0.0.1:8888
+  url: ""
+  username: ""
+  password: ""
 EOF
 fi
 
 if [ "$1" = "x-proxy" ] ; then
     mkdir -p /opt/log/ /opt/db/
 
+    if [ -n "$LOGLV" ]; then
+        echo "$(sed "s/info/$LOGLV/g" config.yaml)" > config.yaml
+    fi
     if [ -n "$LOGPATH" ]; then
         sed -i "s#out: \"./log/proxy.log\"#out: \"$LOGPATH\"#g" config.yaml
     else
@@ -48,7 +57,7 @@ if [ "$1" = "x-proxy" ] ; then
     cat config.yaml
     chown -R chia ./
     chown -h chia:chia ./
-    mkdir -p "$LOGPATH"
+    touch "$LOGPATH"
     chown -R chia "$LOGPATH"
     chown -h chia:chia "$LOGPATH"
     echo "run : $@ "
