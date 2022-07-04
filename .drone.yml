@@ -8,9 +8,8 @@ platform:
   arch: amd64
 
 trigger:
-  branch:
-  - master
   ref:
+  - refs/heads/master
   - refs/tags/pool-og-miner-v.*
   - refs/tags/pool-pp-miner-v.*
   - refs/tags/proxy-og-v.*
