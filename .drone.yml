@@ -15,7 +15,7 @@ trigger:
 
 steps:
 - name: env
-  image: ubuntu
+  image: git
   commands:
   - |
     if [ $CI_BUILD_EVENT = "tag" ]; then
