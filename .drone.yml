@@ -17,17 +17,21 @@ steps:
 - name: env
   image: docker:git
   commands:
-  - git fetch --tags
   - |
     if [ $CI_BUILD_EVENT = "tag" ]; then
       export BUILD_TAG=$DRONE_TAG
     else
+      git fetch --tags
       export BUILD_TAG=$(git describe)
     fi
-  - ls -al
-  - git describe
+    export TAGPRE=$(shell echo "${BUILD_TAG}" | cut -c12-16)
+    export TAGHPOOL=$(shell echo "${BUILD_TAG}" | cut -c16-23)
+    export TAGHPOOL_PP=$(shell echo "${BUILD_TAG}" | cut -c16-23)
   - echo $$BUILD_TAG
-  - export
+  - echo $$TAGPRE
+  - echo $$TAGHPOOL
+  - echo $$TAGHPOOL_PP
+
 
 
 
