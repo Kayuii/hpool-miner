@@ -4,7 +4,7 @@ type: docker
 name: check_chia_og
 
 steps:
-- name: clone
+- name: clone_chia_og
   image: alpine/git
   commands:
   - git clone https://github.com/hpool-dev/chia-miner.git /drone/chia-miner
