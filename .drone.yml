@@ -1,41 +1,71 @@
 ---
 kind: pipeline
 type: docker
-name: default
-
-platform:
-  os: linux
-  arch: amd64
-
-trigger:
-  ref:
-  - refs/heads/master
-  - refs/tags/**
-
+name: check_chia_og
 
 steps:
-- name: env
-  image: docker:git
+- name: clone
+  image: alpine/git
   commands:
-  - |
-    if [ $CI_BUILD_EVENT = "tag" ]; then
-      export BUILD_TAG=$DRONE_TAG
-    else
-      git fetch --tags
-      export BUILD_TAG=$(git describe)
-    fi
-    export TAGPRE=$(shell echo "${BUILD_TAG}" | cut -c12-16)
-    export TAGHPOOL=$(shell echo "${BUILD_TAG}" | cut -c16-23)
-    export TAGHPOOL_PP=$(shell echo "${BUILD_TAG}" | cut -c16-23)
-  - echo $$BUILD_TAG
-  - echo $$TAGPRE
-  - echo $$TAGHPOOL
-  - echo $$TAGHPOOL_PP
+  - git clone https://github.com/hpool-dev/chia-miner.git /drone/chia-miner
+  - cd /drone/chia-miner
+  - mv /drone/src/hpool-og/version /drone/src/hpool-og/version.old
+  - git describe > /drone/src/hpool-og/version
+  - cd /drone/src
 
 
 
+# ---
+# kind: pipeline
+# type: docker
+# name: default
+
+# platform:
+#   os: linux
+#   arch: amd64
+
+# trigger:
+#   ref:
+#   - refs/heads/master
+#   - refs/tags/**
+
+# steps:
+# - name: env
+#   image: docker:git
+#   commands:
+#   - |
+#     if [ $CI_BUILD_EVENT = "tag" ]; then
+#       export BUILD_TAG=$DRONE_TAG
+#     else
+#       git fetch --tags
+#       export BUILD_TAG=$(git describe)
+#     fi
+#     export TAGPRE=$(echo "${BUILD_TAG}" | cut -c12-16)
+#     export TAGHPOOL=$(echo "${BUILD_TAG}" | cut -c16-23)
+#     export TAGHPOOL_PP=$(echo "${BUILD_TAG}" | cut -c16-23)
+#   - echo $$BUILD_TAG
+#   - echo $$TAGPRE
+#   - echo $$TAGHPOOL
+#   - echo $$TAGHPOOL_PP
 
 
+# - name: backend
+#   image: plugins/docker
+#   settings:
+#     repo: kayuii/hpool-miner
+#     dockerfile: ./Dockerfile
+#     username: kayuii
+#     password:
+#       from_secret: DOCKER_PWD
+#     tags: dev
+#   depends_on:
+#   - env
+#   when:
+#     ref:
+#     - refs/heads/master
+
+# depends_on:
+#   - checkrepo
 
 # volumes:
 # - name: dockersock
