@@ -7,6 +7,8 @@ steps:
 - name: clone_chia_og
   image: alpine/git
   commands:
+  - pwd
+  - ls -al
   - git clone https://github.com/hpool-dev/chia-miner.git /drone/chia-miner
   - cd /drone/chia-miner
   - mv /drone/src/hpool-og/version /drone/src/hpool-og/version.old
