@@ -1,6 +1,52 @@
 ---
 kind: pipeline
 type: docker
+name: master
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  ref:
+  - refs/heads/master
+
+steps:
+- name: status
+  image: kayuii/github-checker
+  commands:
+  - chia_miner_version=$(github-checker hpool-dev/chia-miner)
+  - URL=$(cat chia-og/version | github-checker hpool-dev/chia-miner)
+  - XPROXY=$(echo "$URL" | grep xproxy)
+  - HPOOL_LINUX=$(echo "$URL" | grep linux)
+  - |
+    if [ -n $XPROXY ]; then
+      false
+    else
+      true
+    fi
+
+- name: havenewversion
+  image: kayuii/github-checker
+  commands:
+  - chia_miner_version=$(github-checker hpool-dev/chia-miner)
+  - echo "$chia_miner_version"
+  when:
+    status:
+    - success
+
+- name: haven'tnewversion
+  image: kayuii/github-checker
+  commands:
+  - chia_miner_version=$(github-checker hpool-dev/chia-miner)
+  - echo "$chia_miner_version"
+  when:
+    status:
+    - failure
+
+---
+kind: pipeline
+type: docker
 name: check_chia_og
 
 trigger:
@@ -9,7 +55,7 @@ trigger:
 
 steps:
 - name: check
-  image: kayuii/github-checker
+  image: alpine/git
   commands:
   - github-checker hpool-dev/chia-miner
   - URL=$(cat chia-og/version | github-checker hpool-dev/chia-miner)
@@ -54,7 +100,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: build
+name: build-tag
 
 platform:
   os: linux
@@ -62,13 +108,7 @@ platform:
 
 trigger:
   ref:
-  - refs/head/main
-
-steps:
-- name: status
-  image: kayuii/github-checker
-  commands:
-  - github-checker hpool-dev/chia-miner
+  - refs/tags/**
 
 # - name: publish-latest
 #   image: thegeeklab/drone-docker-buildx
@@ -82,20 +122,6 @@ steps:
 #       from_secret: docker_username
 #     password:
 #       from_secret: docker_password
-
-
----
-kind: pipeline
-type: docker
-name: build-tag
-
-platform:
-  os: linux
-  arch: amd64
-
-trigger:
-  ref:
-  - refs/tags/**
 
 steps:
 - name: publish-chia-og
@@ -157,3 +183,5 @@ steps:
 # - name: dockersock
 #   host:
 #     path: /var/run/docker.sock
+
+...
