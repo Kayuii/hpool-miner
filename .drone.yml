@@ -37,10 +37,16 @@ steps:
   commands:
   - CUR_VERSION=$(cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
   - mkdir -p "/root/.ssh"
+  - chmod 0700 /root/.ssh/
   - ssh-keyscan github.com > /root/.ssh/known_hosts
-  - echo "$SSHKEY" > /root/.ssh/id_key
-  - chmod 400 /root/.ssh/id_key
+  - chmod 0600 /root/.ssh/known_hosts
+  - echo "$SSHKEY" | base64 -d > /root/.ssh/id_key
+  - chmod 0400 /root/.ssh/id_key
+  - ssh-keygen -l -f /root/.ssh/id_key | awk '{gsub(/\(|\)/,"");print "id_" tolower($4)}' | xargs -i ln -s /root/.ssh/id_rsa {}
+  - ls -lARFh /root/.ssh
   - git add --all
+  - git config --global user.name "$DRONE_COMMIT_AUTHOR"
+  - git config --global user.mail "$DRONE_COMMIT_AUTHOR_EMAIL"
   - git commit -m "[drone CI] update chia-og version to $CUR_VERSION" --author="drone-build-bot <drone@vzxc.com>"
   - git tag "hpool-og-miner-$CUR_VERSION"
   - git status
