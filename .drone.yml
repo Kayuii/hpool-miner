@@ -24,9 +24,11 @@ steps:
       github-checker hpool-dev/chia-miner | tee chia-og/version
       echo $XPROXY | tee chia-og/xproxy_download_url
       echo $HPOOL_LINUX | tee chia-og/hpool_miner_download_url
-      true
-    else
+      # true
       false
+    else
+      # false
+      true
     fi
 
 - name: havenewversion
