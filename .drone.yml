@@ -42,7 +42,7 @@ steps:
   - chmod 0600 /root/.ssh/known_hosts
   - echo "$SSHKEY" | base64 -d > /root/.ssh/id_key
   - chmod 0400 /root/.ssh/id_key
-  - ssh-keygen -l -f /root/.ssh/id_key | awk '{gsub(/\(|\)/,"");print "id_" tolower($4)}' | xargs -i ln -s /root/.ssh/id_rsa {}
+  - ssh-keygen -l -f /root/.ssh/id_key | awk '{gsub(/\(|\)/,"");print "/root/.ssh/id_" tolower($4)}' | xargs -i ln -s /root/.ssh/id_rsa {}
   - ls -lARFh /root/.ssh
   - git add --all
   - git config --global user.name "$DRONE_COMMIT_AUTHOR"
