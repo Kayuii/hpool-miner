@@ -39,6 +39,14 @@ steps:
     status:
     - success
 
+- name: haven'tnewversion
+  image: alpine/git
+  commands:
+  - cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}'
+  when:
+    status:
+    - failure
+
 ---
 kind: pipeline
 type: docker
