@@ -32,11 +32,13 @@ steps:
 - name: havenewversion
   image: alpine/git
   commands:
-  - CUR_VERSION=cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}'
+  - CUR_VERSION=$(cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
   - git add --all
-  - git commit -m "$CUR_VERSION" --author="drone-build-bot <drone@vzxc.com>"
+  - git commit -m "[drone CI] update chia-og version to $CUR_VERSION" --author="drone-build-bot <drone@vzxc.com>"
+  - git tag "hpool-og-miner-$CUR_VERSION"
   - git status
   - git log --oneline --graph -n1
+  - git tag -l -n2
   when:
     status:
     - success
