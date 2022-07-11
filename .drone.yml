@@ -23,16 +23,14 @@ steps:
     if [ -n $XPROXY ]; then
       false
     else
-      - chia_miner_version=$(github-checker hpool-dev/chia-miner)
-      - github-checker hpool-dev/chia-miner | tee version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}'
-      - echo "$chia_miner_version"
+      - github-checker hpool-dev/chia-miner | tee version
       true
     fi
 
 - name: havenewversion
   image: alpine/git
   commands:
-  - cat version
+  - cat version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}'
   when:
     status:
     - success
