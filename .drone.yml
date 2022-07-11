@@ -31,17 +31,27 @@ steps:
 
 - name: havenewversion
   image: alpine/git
+  environment:
+    SSHKEY:
+      from_secret: DRONE_HPOOL_MINER
   commands:
   - CUR_VERSION=$(cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
+  - mkdir -p "/root/.ssh"
+  - ssh-keyscan github.com > /root/.ssh/known_hosts
+  - echo "$SSHKEY" > /root/.ssh/id_key
+  - chmod 400 /root/.ssh/id_key
   - git add --all
   - git commit -m "[drone CI] update chia-og version to $CUR_VERSION" --author="drone-build-bot <drone@vzxc.com>"
   - git tag "hpool-og-miner-$CUR_VERSION"
   - git status
   - git log --oneline --graph -n1
   - git tag -l -n2
+  - ssh -T git@github.com
   when:
     status:
     - success
+  depends_on:
+  - status
 
 - name: haven'tnewversion
   image: alpine/git
@@ -50,8 +60,21 @@ steps:
   when:
     status:
     - failure
+  depends_on:
+  - status
 
-
+# - name: push commit
+#   image: appleboy/drone-git-push
+#   settings:
+#     branch: master
+#     remote_name: git@github.com:Kayuii/hpool-miner.git
+#     author_name: drone-build-bot
+#     author_email: drone@vzxc.com
+#     followtags: true
+#     ssh_key:
+#       from_secret: DRONE_HPOOL_MINER
+#   depends_on:
+#   - havenewversion
 
 
 ---
