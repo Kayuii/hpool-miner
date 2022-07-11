@@ -24,6 +24,79 @@ steps:
       github-checker hpool-dev/chia-miner | tee chia-og/version
       echo $XPROXY | tee chia-og/xproxy_download_url
       echo $HPOOL_LINUX | tee chia-og/hpool_miner_download_url
+      # true
+    else
+      github-checker hpool-dev/chia-miner
+      # false
+    fi
+
+# - name: havenewversion
+#   image: alpine/git
+#   environment:
+#     SSHKEY:
+#       from_secret: DRONE_HPOOL_MINER
+#     GIT_TERMINAL_PROMPT: 1
+#   commands:
+#   - CUR_VERSION=$(cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
+#   - mkdir -p "/root/.ssh"
+#   - chmod 0700 /root/.ssh/
+#   - ssh-keyscan github.com > /root/.ssh/known_hosts
+#   - chmod 0600 /root/.ssh/known_hosts
+#   - echo "$SSHKEY" | base64 -d > /root/.ssh/id_key
+#   - chmod 0400 /root/.ssh/id_key
+#   - ssh-keygen -l -f /root/.ssh/id_key | awk '{gsub(/\(|\)/,"");print "/root/.ssh/id_" tolower($4)}' | xargs -i ln -s /root/.ssh/id_key {}
+#   - git add --all
+#   - git config --global user.name "$DRONE_COMMIT_AUTHOR"
+#   - git config --global user.mail "$DRONE_COMMIT_AUTHOR_EMAIL"
+#   - git commit -m "[drone CI] update chia-og version to $CUR_VERSION" --author="drone-build-bot <drone@vzxc.com>"
+#   - git tag "hpool-og-miner-$CUR_VERSION"
+#   - git remote set-url origin git@github.com:Kayuii/hpool-miner.git
+#   - git push --set-upstream origin "$DRONE_BRANCH"
+#   - git push origin tag "hpool-og-miner-$CUR_VERSION"
+#   # - ssh -T git@github.com
+#   when:
+#     status:
+#     - success
+#   depends_on:
+#   - status
+
+# - name: haven'tnewversion
+#   image: alpine/git
+#   commands:
+#   - cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}'
+#   when:
+#     status:
+#     - failure
+#   depends_on:
+#   - status
+
+
+---
+kind: pipeline
+type: docker
+name: cron_work
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  event:
+  - cron
+
+steps:
+- name: status
+  image: kayuii/github-checker
+  # failure: ignore
+  commands:
+  - URL=$(cat chia-og/version | github-checker hpool-dev/chia-miner)
+  - XPROXY=$(echo "$URL" | grep xproxy)
+  - HPOOL_LINUX=$(echo "$URL" | grep linux)
+  - |
+    if [ -n $XPROXY ]; then
+      github-checker hpool-dev/chia-miner | tee chia-og/version
+      echo $XPROXY | tee chia-og/xproxy_download_url
+      echo $HPOOL_LINUX | tee chia-og/hpool_miner_download_url
       true
     else
       false
@@ -83,58 +156,58 @@ steps:
 #   - havenewversion
 
 
----
-kind: pipeline
-type: docker
-name: check_chia_og
+# ---
+# kind: pipeline
+# type: docker
+# name: check_chia_og
 
-trigger:
-  event:
-  - cron
+# trigger:
+#   event:
+#   - cron
 
-steps:
-- name: check
-  image: alpine/git
-  commands:
-  - github-checker hpool-dev/chia-miner
-  - URL=$(cat chia-og/version | github-checker hpool-dev/chia-miner)
-  - XPROXY=$(echo "$URL" | grep xproxy)
-  - HPOOL_LINUX=$(echo "$URL" | grep linux)
-  - |
-    if [ -n $XPROXY ]; then
-      mkdir -p chia-og/tmp
-      wget -qO ./chia-og/tmp/xproxy.zip $XPROXY
-      wget -qO ./chia-og/tmp/linux.zip $HPOOL_LINUX
-      github-checker hpool-dev/chia-miner | tee chia-og/version
-      cd chia-og
-      unzip tmp/xproxy.zip -d "tmp"
-      unzip tmp/linux.zip -d "tmp"
-    else
-      false
-    fi
-  # - export BUILD_TAG=$(cat version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
+# steps:
+# - name: check
+#   image: alpine/git
+#   commands:
+#   - github-checker hpool-dev/chia-miner
+#   - URL=$(cat chia-og/version | github-checker hpool-dev/chia-miner)
+#   - XPROXY=$(echo "$URL" | grep xproxy)
+#   - HPOOL_LINUX=$(echo "$URL" | grep linux)
+#   - |
+#     if [ -n $XPROXY ]; then
+#       mkdir -p chia-og/tmp
+#       wget -qO ./chia-og/tmp/xproxy.zip $XPROXY
+#       wget -qO ./chia-og/tmp/linux.zip $HPOOL_LINUX
+#       github-checker hpool-dev/chia-miner | tee chia-og/version
+#       cd chia-og
+#       unzip tmp/xproxy.zip -d "tmp"
+#       unzip tmp/linux.zip -d "tmp"
+#     else
+#       false
+#     fi
+#   # - export BUILD_TAG=$(cat version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
 
-- name: update-tag
-  image: alpine/git
-  commands:
-  - ls -lARFh
-  when:
-    status:
-    - success
+# - name: update-tag
+#   image: alpine/git
+#   commands:
+#   - ls -lARFh
+#   when:
+#     status:
+#     - success
 
-- name: publish-chia-og
-  image: thegeeklab/drone-docker-buildx
-  privileged: true
-  settings:
-    platforms: "linux/amd64,linux/arm64,linux/arm"
-    dockerfile: chia-og/Dockerfile
-    repo: kayuii/hpool-miner
-    context: chia-og
-  when:
-    event:
-    - cron
-    cron:
-    - weekly
+# - name: publish-chia-og
+#   image: thegeeklab/drone-docker-buildx
+#   privileged: true
+#   settings:
+#     platforms: "linux/amd64,linux/arm64,linux/arm"
+#     dockerfile: chia-og/Dockerfile
+#     repo: kayuii/hpool-miner
+#     context: chia-og
+#   when:
+#     event:
+#     - cron
+#     cron:
+#     - weekly
 
 ---
 kind: pipeline
