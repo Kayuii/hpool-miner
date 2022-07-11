@@ -21,21 +21,21 @@ steps:
   - HPOOL_LINUX=$(echo "$URL" | grep linux)
   - |
     if [ -n $XPROXY ]; then
-      false
-    else
-      - github-checker hpool-dev/chia-miner | tee version
+      github-checker hpool-dev/chia-miner | tee chia-og/version
+      echo $XPROXY | tee chia-og/xproxy_download_url
+      echo $HPOOL_LINUX | tee chia-og/hpool_miner_download_url
       true
+    else
+      false
     fi
 
 - name: havenewversion
   image: alpine/git
   commands:
-  - cat version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}'
+  - cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}'
   when:
     status:
     - success
-  depends_on:
-  - status
 
 ---
 kind: pipeline
