@@ -14,7 +14,7 @@ trigger:
 steps:
 - name: status
   image: kayuii/github-checker
-  failure: ignore
+  # failure: ignore
   commands:
   - URL=$(cat chia-og/version | github-checker hpool-dev/chia-miner)
   - XPROXY=$(echo "$URL" | grep xproxy)
@@ -39,6 +39,24 @@ steps:
     status:
     - success
 
+# - name: haven'tnewversion
+#   image: alpine/git
+#   commands:
+#   - cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}'
+#   when:
+#     status:
+#     - failure
+
+---
+kind: pipeline
+type: exec
+name: haven'tnewversion
+
+trigger:
+  status:
+  - failure
+
+steps:
 - name: haven'tnewversion
   image: alpine/git
   commands:
@@ -46,6 +64,9 @@ steps:
   when:
     status:
     - failure
+
+depends_on:
+- master
 
 ---
 kind: pipeline
