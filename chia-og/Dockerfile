@@ -1,12 +1,13 @@
 FROM ubuntu:20.04 as download
 
+ARG TARGETARCH
+
 COPY / /opt
 
-RUN export ARCH=$(dpkg --print-architecture) \
-  && if [ "$ARCH" = "amd64" ] ; then export ARCH=amd64; fi \
-  && if [ "$ARCH" = "arm64" ] ; then export ARCH=aarch64; fi \
-  && if [ "$ARCH" = "armhf" ] ; then export ARCH=arm; fi \
-  && find /opt/ -name "*$ARCH" | grep -v xproxy | xargs -i /bin/mv {} /opt/
+RUN if [ "$TARGETARCH" = "amd64" ] ; then export ARCH=amd64; fi \
+  && if [ "$TARGETARCH" = "arm64" ] ; then export ARCH=aarch64; fi \
+  && if [ "$TARGETARCH" = "arm" ] ; then export ARCH=arm; fi \
+  && find /opt/ -name "*$TARGETARCH" | grep -v xproxy | xargs -i /bin/mv {} /opt/
 
 FROM alpine:3.12 as timezone
 
