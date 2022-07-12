@@ -4,7 +4,9 @@ ARG TARGETARCH
 
 COPY / /opt
 
-RUN find /opt/ -name "*$TARGETARCH" | grep -v chia | xargs -i /bin/mv {} /opt/ \
+RUN apt-get -qq update \
+  && apt-get -qq install -y --no-install-recommends ca-certificates curl \
+  && find /opt/ -name "*$TARGETARCH" | grep -v chia | xargs -i /bin/mv {} /opt/ \
   && cd /opt/ \
   && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini-$TARGETARCH \
   && chmod +x tini* \
@@ -33,9 +35,6 @@ RUN apt-get -qq update \
     && useradd -r -m -g chia chia \
     && usermod -a -G users,chia chia \
     && echo $TZ > /etc/timezone \
-    && cd /opt/ \
-    && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini \
-    && chmod +x tini \
     && ls -al /opt/ \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*

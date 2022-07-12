@@ -4,7 +4,9 @@ ARG TARGETARCH
 
 COPY / /opt
 
-RUN if [ "$TARGETARCH" = "amd64" ] ; then export ARCH=amd64 ARCH2=amd64 ; fi \
+RUN apt-get -qq update \
+  && apt-get -qq install -y --no-install-recommends ca-certificates curl \
+  && if [ "$TARGETARCH" = "amd64" ] ; then export ARCH=amd64 ARCH2=amd64 ; fi \
   && if [ "$TARGETARCH" = "arm64" ] ; then export ARCH=aarch64 ARCH2=amd64 ; fi \
   && if [ "$TARGETARCH" = "arm" ] ; then export ARCH=arm ARCH2=armhf; fi \
   && find /opt/ -name "*$ARCH" | grep -v xproxy | xargs -i /bin/mv {} /opt/ \
