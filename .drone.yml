@@ -186,6 +186,9 @@ steps:
   image: ubuntu
   # failure: ignore
   commands:
+  - apt-get -qq update
+  - apt-get -qq install -y wget unzip
+  - mkdir -p chia-og/tmp
   - |
     if [ -f chia-og/.xproxy_download_url ]; then
       wget -qO ./chia-og/tmp/xproxy.zip -i chia-og/.xproxy_download_url
