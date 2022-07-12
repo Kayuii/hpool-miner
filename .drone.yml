@@ -197,7 +197,7 @@ steps:
       false
     fi
     if [ -f chia-og/.hpool_miner_download_url ]; then
-      wget -qO ./chia-og/tmp/xproxy.zip -i chia-og/.hpool_miner_download_url
+      wget -qO ./chia-og/tmp/linux.zip -i chia-og/.hpool_miner_download_url
       unzip chia-og/tmp/linux.zip -d "chia-og/tmp"
     else
       false
