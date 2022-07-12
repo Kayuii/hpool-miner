@@ -16,14 +16,15 @@ steps:
   image: kayuii/github-checker
   # failure: ignore
   commands:
-  - URL=$(cat chia-og/version | github-checker hpool-dev/chia-miner)
+  - URL=$(cat chia-og/.version | github-checker hpool-dev/chia-miner)
   - XPROXY=$(echo "$URL" | grep xproxy)
   - HPOOL_LINUX=$(echo "$URL" | grep linux)
   - |
     if [ -n $XPROXY ]; then
-      github-checker hpool-dev/chia-miner | tee chia-og/version
-      echo $XPROXY | tee chia-og/xproxy_download_url
-      echo $HPOOL_LINUX | tee chia-og/hpool_miner_download_url
+      github-checker hpool-dev/chia-miner | tee chia-og/.version
+      echo $XPROXY | tee chia-og/.xproxy_download_url
+      echo $XPROXY | sed -r "s/.*-v(.*)\.zip/\1/g" | tee chia-og/.xproxy_version
+      echo $HPOOL_LINUX | tee chia-og/.hpool_miner_download_url
       true
     else
       false
@@ -36,7 +37,8 @@ steps:
       from_secret: DRONE_HPOOL_MINER
     GIT_TERMINAL_PROMPT: 1
   commands:
-  - CUR_VERSION=$(cat chia-og/version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
+  - CUR_VERSION=$(cat chia-og/.version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
+  - XPROXY_VERSION=$(cat chia-og/.xproxy_version)
   - mkdir -p "/root/.ssh"
   - chmod 0700 /root/.ssh/
   - ssh-keyscan github.com > /root/.ssh/known_hosts
@@ -49,6 +51,7 @@ steps:
   - git config --global user.mail "$DRONE_COMMIT_AUTHOR_EMAIL"
   - git commit -m "[drone CI] update chia-og version to $CUR_VERSION" --author="drone-build-bot <drone@vzxc.com>"
   - git tag "hpool-og-miner-$CUR_VERSION"
+  - git tag "xproxy-og-v$XPROXY_VERSION"
   - git remote set-url origin git@github.com:Kayuii/hpool-miner.git
   - git push --set-upstream origin "$DRONE_BRANCH"
   - git push origin tag "hpool-og-miner-$CUR_VERSION"
@@ -126,7 +129,7 @@ steps:
 #   image: alpine/git
 #   commands:
 #   - github-checker hpool-dev/chia-miner
-#   - URL=$(cat chia-og/version | github-checker hpool-dev/chia-miner)
+#   - URL=$(cat chia-og/.version | github-checker hpool-dev/chia-miner)
 #   - XPROXY=$(echo "$URL" | grep xproxy)
 #   - HPOOL_LINUX=$(echo "$URL" | grep linux)
 #   - |
@@ -134,7 +137,7 @@ steps:
 #       mkdir -p chia-og/tmp
 #       wget -qO ./chia-og/tmp/xproxy.zip $XPROXY
 #       wget -qO ./chia-og/tmp/linux.zip $HPOOL_LINUX
-#       github-checker hpool-dev/chia-miner | tee chia-og/version
+#       github-checker hpool-dev/chia-miner | tee chia-og/.version
 #       cd chia-og
 #       unzip tmp/xproxy.zip -d "tmp"
 #       unzip tmp/linux.zip -d "tmp"
@@ -179,6 +182,24 @@ trigger:
   - refs/tags/**
 
 steps:
+- name: checker
+  image: ubuntu
+  # failure: ignore
+  commands:
+  - |
+    if [ -f chia-og/.xproxy_download_url ]; then
+      wget -qO ./chia-og/tmp/xproxy.zip -i chia-og/.xproxy_download_url
+      unzip chia-og/tmp/xproxy.zip -d "chia-og/tmp"
+    else
+      false
+    fi
+    if [ -f chia-og/.hpool_miner_download_url ]; then
+      wget -qO ./chia-og/tmp/xproxy.zip -i chia-og/.hpool_miner_download_url
+      unzip chia-og/tmp/linux.zip -d "chia-og/tmp"
+    else
+      false
+    fi
+
 - name: publish-chia-og
   image: thegeeklab/drone-docker-buildx
   privileged: true
