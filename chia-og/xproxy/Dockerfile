@@ -1,21 +1,44 @@
+FROM ubuntu:20.04 as download
+
+ARG TARGETARCH
+
+COPY / /opt
+
+RUN find /opt/ -name "*$TARGETARCH" | grep -v chia | xargs -i /bin/mv {} /opt/ \
+  && cd /opt/ \
+  && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini-$TARGETARCH \
+  && chmod +x tini* \
+  && curl -sOL https://github.com/tianon/gosu/releases/download/1.14/gosu-$TARGETARCH \
+  && chmod +x gosu*
+
+FROM alpine:3.12 as timezone
+
+Run apk update && apk add tzdata
+
 FROM ubuntu:20.04
 
-RUN groupadd -r chia && useradd -r -m -g chia chia
 ENV PATH=$PATH:/opt
+
+ENV TZ=Asia/Shanghai
 WORKDIR /opt
 
-COPY --from=builder /opt/x-proxy-og-linux-amd64 /opt/x-proxy
-COPY --from=builder /opt/config.yaml /opt/config.yaml
+COPY --from=timezone /usr/share/zoneinfo/$TZ /etc/localtime
+COPY --from=download /opt/x-proxy-* /opt/x-proxy
+COPY --from=download /opt/tini* /opt/tini
+COPY --from=download /opt/gosu* /opt/gosu
 
 RUN apt-get -qq update \
-    && apt-get -qq install -y --no-install-recommends ca-certificates curl gosu sqlite3 \
-    && cp /usr/share/zoneinfo/$TZ /etc/localtime \
+    && apt-get -qq install -y --no-install-recommends ca-certificates curl sqlite3 \
+    && groupadd -r chia \
+    && useradd -r -m -g chia chia \
+    && usermod -a -G users,chia chia \
     && echo $TZ > /etc/timezone \
     && cd /opt/ \
     && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini \
     && chmod +x tini \
     && ls -al /opt/ \
-    && rm /opt/config.yaml
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 EXPOSE 9190
 

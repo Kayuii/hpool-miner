@@ -4,10 +4,15 @@ ARG TARGETARCH
 
 COPY / /opt
 
-RUN if [ "$TARGETARCH" = "amd64" ] ; then export ARCH=amd64; fi \
-  && if [ "$TARGETARCH" = "arm64" ] ; then export ARCH=aarch64; fi \
-  && if [ "$TARGETARCH" = "arm" ] ; then export ARCH=arm; fi \
-  && find /opt/ -name "*$TARGETARCH" | grep -v xproxy | xargs -i /bin/mv {} /opt/
+RUN if [ "$TARGETARCH" = "amd64" ] ; then export ARCH=amd64 ARCH2=amd64 ; fi \
+  && if [ "$TARGETARCH" = "arm64" ] ; then export ARCH=aarch64 ARCH2=amd64 ; fi \
+  && if [ "$TARGETARCH" = "arm" ] ; then export ARCH=arm ARCH2=armhf; fi \
+  && find /opt/ -name "*$ARCH" | grep -v xproxy | xargs -i /bin/mv {} /opt/ \
+  && cd /opt/ \
+  && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini-$ARCH2 \
+  && chmod +x tini* \
+  && curl -sOL https://github.com/tianon/gosu/releases/download/1.14/gosu-$ARCH2 \
+  && chmod +x gosu*
 
 FROM alpine:3.12 as timezone
 
@@ -22,9 +27,11 @@ WORKDIR /opt
 
 COPY --from=timezone /usr/share/zoneinfo/$TZ /etc/localtime
 COPY --from=download /opt/hpool-* /opt/hpool-chia-miner
+COPY --from=download /opt/tini* /opt/tini
+COPY --from=download /opt/gosu* /opt/gosu
 
 RUN apt-get -qq update \
-    && apt-get -qq install -y --no-install-recommends ca-certificates curl gosu tini \
+    && apt-get -qq install -y --no-install-recommends ca-certificates curl \
     && groupadd -r chia \
     && useradd -r -m -g chia chia \
     && usermod -a -G users,chia chia \

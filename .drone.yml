@@ -178,19 +178,6 @@ trigger:
   ref:
   - refs/tags/**
 
-# - name: publish-latest
-#   image: thegeeklab/drone-docker-buildx
-#   privileged: true
-#   settings:
-#     platforms: "linux/amd64,linux/arm64,linux/arm"
-#     dockerfile: chia-og/Dockerfile
-#     repo: kayuii/hpool-miner
-#     context: chia-og
-#     username:
-#       from_secret: docker_username
-#     password:
-#       from_secret: docker_password
-
 steps:
 - name: publish-chia-og
   image: thegeeklab/drone-docker-buildx
@@ -209,6 +196,24 @@ steps:
   when:
     ref:
     - refs/tags/hpool-og-miner-v**
+
+- name: publish-xproxy
+  image: thegeeklab/drone-docker-buildx
+  privileged: true
+  settings:
+    tags:
+    - ${DRONE_TAG}
+    platforms: "linux/amd64"
+    dockerfile: chia-og/xproxy/Dockerfile
+    repo: kayuii/hpool-miner
+    context: chia-og
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    ref:
+    - refs/tags/xproxy-og-v**
 
 # steps:
 # - name: env
