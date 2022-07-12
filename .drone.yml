@@ -85,17 +85,19 @@ steps:
   - uname -a
   - cat /etc/shells
   - echo $BUILD_TAG
-  - echo ${BUILD_TAG#*v}
-  - echo ${BUILD_TAG##*v}
-  - echo ${BUILD_TAG^}
-  - echo ${BUILD_TAG^^}
-  - echo ${BUILD_TAG,}
-  - echo ${BUILD_TAG,,}
-  - echo ${BUILD_TAG:5}
-  - echo ${BUILD_TAG:5:5}
+  - "echo ${BUILD_TAG#*v}"
+  - "echo ${BUILD_TAG##*v}"
+  - "echo ${BUILD_TAG^}"
+  - "echo ${BUILD_TAG^^}"
+  - "echo ${BUILD_TAG,}"
+  - "echo ${BUILD_TAG,,}"
+  - "echo ${BUILD_TAG:5}"
+  - "echo ${BUILD_TAG:5:5}"
   - echo $TAG
-  - echo ${TAG#v}
-  - echo ${TAG##v}
+  - echo "$TAG"
+  - echo "${TAG}"
+  - "echo ${TAG#v}"
+  - "echo ${TAG##v}"
   - echo $0
 
 
