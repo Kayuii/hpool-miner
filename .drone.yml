@@ -77,12 +77,13 @@ environment:
 
 steps:
 - name: testing
-  image: plugins/git
+  image: ubuntu
   environment:
     TAG: ${BUILD_TAG#v}
   commands:
   - export BUILD_TAG=hpool-og-miner-v1.5.4-2
-  - export
+  - uname -a
+  - cat /etc/shells
   - echo $BUILD_TAG
   - echo ${BUILD_TAG#*v}
   - echo ${BUILD_TAG##*v}
