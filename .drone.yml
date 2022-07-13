@@ -73,7 +73,7 @@ platform:
 
 trigger:
   ref:
-  - refs/heads/master
+  # - refs/heads/master
   - refs/tags/**
 
 environment:
@@ -231,7 +231,7 @@ steps:
     platforms: "linux/amd64"
     dockerfile: chia-og/xproxy/Dockerfile
     repo: kayuii/hpool-miner
-    context: chia-og
+    context: chia-og/xproxy
     username:
       from_secret: docker_username
     password:
