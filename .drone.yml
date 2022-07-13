@@ -37,6 +37,7 @@ steps:
       from_secret: DRONE_HPOOL_MINER
     GIT_TERMINAL_PROMPT: 1
   commands:
+  - git fetch --tags
   - CUR_VERSION=$(cat chia-og/.version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
   - XPROXY_VERSION=$(cat chia-og/.xproxy_version)
   - mkdir -p "/root/.ssh"
@@ -50,8 +51,8 @@ steps:
   - git config --global user.name "$DRONE_COMMIT_AUTHOR"
   - git config --global user.mail "$DRONE_COMMIT_AUTHOR_EMAIL"
   - git commit -m "[drone CI] update chia-og version to $CUR_VERSION" --author="drone-build-bot <drone@vzxc.com>"
-  - git tag "hpool-og-miner-$CUR_VERSION"
-  - git tag "xproxy-og-v$XPROXY_VERSION"
+  - git tag -a "hpool-og-miner-$CUR_VERSION" -m "[drone CI] publish chia-og version to $CUR_VERSION"
+  - git tag -a "xproxy-og-v$XPROXY_VERSION" -m "[drone CI] publish xproxy version to v$XPROXY_VERSION"
   - git remote set-url origin git@github.com:Kayuii/hpool-miner.git
   - git push --set-upstream origin "$DRONE_BRANCH"
   - git push origin tag "hpool-og-miner-$CUR_VERSION"
