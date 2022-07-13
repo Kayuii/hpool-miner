@@ -82,12 +82,12 @@ steps:
   image: kayuii/github-checker
   # failure: ignore
   commands:
-  - URL=$(cat chia-pp/.version | github-checker hpool-dev/chia-miner)
+  - URL=$(cat chia-pp/.version | github-checker hpool-dev/chiapp-miner)
   - XPROXY=$(echo "$URL" | grep xproxy | tail -1)
   - HPOOL_LINUX=$(echo "$URL" | grep linux | tail -1)
   - |
     if [ -n $XPROXY ]; then
-      github-checker hpool-dev/chia-miner | tee chia-pp/.version
+      github-checker hpool-dev/chiapp-miner | tee chia-pp/.version
       echo $XPROXY | tee chia-pp/.xproxy_download_url
       echo $XPROXY | sed -r "s/.*-v(.*)\.zip/\1/g" | tee chia-pp/.xproxy_version
       echo $HPOOL_LINUX | tee chia-pp/.hpool_miner_download_url
