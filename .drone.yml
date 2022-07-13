@@ -208,6 +208,7 @@ steps:
   privileged: true
   settings:
     tags:
+    - latest
     - v${DRONE_TAG##*v}
     platforms: "linux/amd64,linux/arm64,linux/arm"
     dockerfile: chia-og/Dockerfile
