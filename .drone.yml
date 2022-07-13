@@ -130,6 +130,9 @@ steps:
   depends_on:
   - status
 
+depends_on:
+- cron_work_for_og
+
 ---
 kind: pipeline
 type: docker
