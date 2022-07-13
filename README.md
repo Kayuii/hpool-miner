@@ -1,6 +1,6 @@
 # [kayuii/hpool-miner](https://github.com/Kayuii/hpool-miner)
 
-[![Build Status](https://travis-ci.com/Kayuii/hpool-miner.svg?branch=master)](https://travis-ci.com/Kayuii/hpool-miner)
+[![Build Status](https://drone.vzxc.com/api/badges/Kayuii/hpool-miner/status.svg)](https://drone.vzxc.com/Kayuii/hpool-miner)
 
 An [hpool-chia-miner](https://github.com/hpool-dev/chia-miner) docker image.
 
