@@ -239,7 +239,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: build-tag
+name: build-og-tag
 
 platform:
   os: linux
@@ -247,7 +247,8 @@ platform:
 
 trigger:
   ref:
-  - refs/tags/**
+  - refs/tags/hpool-og-miner-v**
+  - refs/tags/xproxy-og-v**
 
 steps:
 - name: checker
@@ -307,6 +308,79 @@ steps:
   when:
     ref:
     - refs/tags/xproxy-og-v**
+
+---
+kind: pipeline
+type: docker
+name: build-pp-tag
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  ref:
+  - refs/tags/hpool-pp-miner-v**
+  - refs/tags/xproxy-pp-v**
+
+steps:
+- name: checker
+  image: ubuntu
+  # failure: ignore
+  commands:
+  - apt-get -qq update
+  - apt-get -qq install -y wget unzip
+  - mkdir -p chia-pp/tmp
+  - |
+    if [ -f chia-pp/.xproxy_download_url ]; then
+      wget -qO ./chia-pp/tmp/xproxy.zip -i chia-pp/.xproxy_download_url
+      unzip chia-pp/tmp/xproxy.zip -d "chia-pp/tmp"
+    else
+      false
+    fi
+    if [ -f chia-pp/.hpool_miner_download_url ]; then
+      wget -qO ./chia-pp/tmp/linux.zip -i chia-pp/.hpool_miner_download_url
+      unzip chia-pp/tmp/linux.zip -d "chia-pp/tmp"
+    else
+      false
+    fi
+
+- name: publish-chia-pp
+  image: thegeeklab/drone-docker-buildx
+  privileged: true
+  settings:
+    tags:
+    - latest
+    - v${DRONE_TAG##*v}
+    platforms: "linux/amd64,linux/arm64,linux/arm"
+    dockerfile: chia-pp/Dockerfile
+    repo: kayuii/hpool-pp-miner
+    context: chia-pp
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    ref:
+    - refs/tags/hpool-pp-miner-v**
+
+- name: publish-xproxy
+  image: thegeeklab/drone-docker-buildx
+  privileged: true
+  settings:
+    tags:
+    - ${DRONE_TAG}
+    platforms: "linux/amd64"
+    dockerfile: chia-pp/xproxy/Dockerfile
+    repo: kayuii/hpool-pp-miner
+    context: chia-pp/xproxy
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    ref:
+    - refs/tags/xproxy-pp-v**
 
 # steps:
 # - name: env
