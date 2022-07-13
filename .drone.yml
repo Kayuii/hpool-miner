@@ -122,7 +122,7 @@ steps:
   - git remote set-url origin git@github.com:Kayuii/hpool-miner.git
   - git push --set-upstream origin "$DRONE_BRANCH"
   - git push origin tag "hpool-pp-miner-$CUR_VERSION"
-  - git push origin tag "xproxy-pp-v$CUR_VERSION"
+  - git push origin tag "xproxy-pp-v$XPROXY_VERSION"
   # - ssh -T git@github.com
   when:
     status:
