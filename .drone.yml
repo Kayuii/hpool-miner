@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: docker
-name: cron_work
+name: cron_work_for_og
 
 platform:
   os: linux
@@ -17,8 +17,8 @@ steps:
   # failure: ignore
   commands:
   - URL=$(cat chia-og/.version | github-checker hpool-dev/chia-miner)
-  - XPROXY=$(echo "$URL" | grep xproxy)
-  - HPOOL_LINUX=$(echo "$URL" | grep linux)
+  - XPROXY=$(echo "$URL" | grep xproxy | tail -1)
+  - HPOOL_LINUX=$(echo "$URL" | grep linux | tail -1)
   - |
     if [ -n $XPROXY ]; then
       github-checker hpool-dev/chia-miner | tee chia-og/.version
@@ -52,10 +52,77 @@ steps:
   - git config --global user.mail "$DRONE_COMMIT_AUTHOR_EMAIL"
   - git commit -m "[drone CI] update chia-og version to $CUR_VERSION" --author="drone-build-bot <drone@vzxc.com>"
   - git tag -a "hpool-og-miner-$CUR_VERSION" -m "[drone CI] publish chia-og version to $CUR_VERSION"
-  - git tag -a "xproxy-og-v$XPROXY_VERSION" -m "[drone CI] publish xproxy version to v$XPROXY_VERSION"
+  - git tag -a "xproxy-og-v$XPROXY_VERSION" -m "[drone CI] publish xproxy-og version to v$XPROXY_VERSION"
   - git remote set-url origin git@github.com:Kayuii/hpool-miner.git
   - git push --set-upstream origin "$DRONE_BRANCH"
   - git push origin tag "hpool-og-miner-$CUR_VERSION"
+  - git push origin tag "xproxy-og-v$XPROXY_VERSION"
+  # - ssh -T git@github.com
+  when:
+    status:
+    - success
+  depends_on:
+  - status
+
+---
+kind: pipeline
+type: docker
+name: cron_work_for_pp
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  event:
+  - cron
+
+steps:
+- name: status
+  image: kayuii/github-checker
+  # failure: ignore
+  commands:
+  - URL=$(cat chia-pp/.version | github-checker hpool-dev/chia-miner)
+  - XPROXY=$(echo "$URL" | grep xproxy | tail -1)
+  - HPOOL_LINUX=$(echo "$URL" | grep linux | tail -1)
+  - |
+    if [ -n $XPROXY ]; then
+      github-checker hpool-dev/chia-miner | tee chia-pp/.version
+      echo $XPROXY | tee chia-pp/.xproxy_download_url
+      echo $XPROXY | sed -r "s/.*-v(.*)\.zip/\1/g" | tee chia-pp/.xproxy_version
+      echo $HPOOL_LINUX | tee chia-pp/.hpool_miner_download_url
+      true
+    else
+      false
+    fi
+
+- name: havenewversion
+  image: alpine/git
+  environment:
+    SSHKEY:
+      from_secret: DRONE_HPOOL_MINER
+    GIT_TERMINAL_PROMPT: 1
+  commands:
+  - git fetch --tags
+  - CUR_VERSION=$(cat chia-pp/.version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
+  - XPROXY_VERSION=$(cat chia-pp/.xproxy_version)
+  - mkdir -p "/root/.ssh"
+  - chmod 0700 /root/.ssh/
+  - ssh-keyscan github.com > /root/.ssh/known_hosts
+  - chmod 0600 /root/.ssh/known_hosts
+  - echo "$SSHKEY" | base64 -d > /root/.ssh/id_key
+  - chmod 0400 /root/.ssh/id_key
+  - ssh-keygen -l -f /root/.ssh/id_key | awk '{gsub(/\(|\)/,"");print "/root/.ssh/id_" tolower($4)}' | xargs -i ln -s /root/.ssh/id_key {}
+  - git add --all
+  - git config --global user.name "$DRONE_COMMIT_AUTHOR"
+  - git config --global user.mail "$DRONE_COMMIT_AUTHOR_EMAIL"
+  - git commit -m "[drone CI] update chia-pp version to $CUR_VERSION" --author="drone-build-bot <drone@vzxc.com>"
+  - git tag -a "hpool-pp-miner-$CUR_VERSION" -m "[drone CI] publish chia-pp version to $CUR_VERSION"
+  - git tag -a "xproxy-pp-v$XPROXY_VERSION" -m "[drone CI] publish xproxy-pp version to v$XPROXY_VERSION"
+  - git remote set-url origin git@github.com:Kayuii/hpool-miner.git
+  - git push --set-upstream origin "$DRONE_BRANCH"
+  - git push origin tag "hpool-pp-miner-$CUR_VERSION"
+  - git push origin tag "xproxy-pp-v$CUR_VERSION"
   # - ssh -T git@github.com
   when:
     status:
