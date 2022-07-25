@@ -22,9 +22,9 @@ steps:
   - |
     if [ -n "$XPROXY" ]; then
       github-checker hpool-dev/chia-miner | tee chia-og/.version
-      echo $XPROXY | tee chia-og/.xproxy_download_url
-      echo $XPROXY | sed -r "s/.*-v(.*)\.zip/\1/g" | tee chia-og/.xproxy_version
-      echo $HPOOL_LINUX | tee chia-og/.hpool_miner_download_url
+      echo $XPROXY | tee chia-og/xproxy/.download_url
+      echo $XPROXY | sed -r "s/.*-v(.*)\.zip/\1/g" | tee chia-og/xproxy/.version
+      echo $HPOOL_LINUX | tee chia-og/.download_url
     else
       rm chia-og/.version
     fi
@@ -42,7 +42,7 @@ steps:
     fi
   - git fetch --tags
   - CUR_VERSION=$(cat chia-og/.version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
-  - XPROXY_VERSION=$(cat chia-og/.xproxy_version)
+  - XPROXY_VERSION=$(cat chia-og/xproxy/.version)
   - mkdir -p "/root/.ssh"
   - chmod 0700 /root/.ssh/
   - ssh-keyscan github.com > /root/.ssh/known_hosts
@@ -98,9 +98,9 @@ steps:
   - |
     if [ -n "$XPROXY" ]; then
       github-checker hpool-dev/chiapp-miner | tee chia-pp/.version
-      echo $XPROXY | tee chia-pp/.xproxy_download_url
-      echo $XPROXY | sed -r "s/.*-v(.*)\.zip/\1/g" | tee chia-pp/.xproxy_version
-      echo $HPOOL_LINUX | tee chia-pp/.hpool_miner_download_url
+      echo $XPROXY | tee chia-pp/xproxy/.download_url
+      echo $XPROXY | sed -r "s/.*-v(.*)\.zip/\1/g" | tee chia-pp/xproxy/.version
+      echo $HPOOL_LINUX | tee chia-pp/.download_url
     else
       rm chia-pp/.version
     fi
@@ -118,7 +118,7 @@ steps:
     fi
   - git fetch --tags
   - CUR_VERSION=$(cat chia-pp/.version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
-  - XPROXY_VERSION=$(cat chia-pp/.xproxy_version)
+  - XPROXY_VERSION=$(cat chia-pp/xproxy/.version)
   - mkdir -p "/root/.ssh"
   - chmod 0700 /root/.ssh/
   - ssh-keyscan github.com > /root/.ssh/known_hosts
@@ -201,15 +201,16 @@ steps:
   - apt-get -qq update
   - apt-get -qq install -y wget unzip
   - mkdir -p chia-og/tmp
+  - mkdir -p chia-og/xproxy/tmp
   - |
-    if [ -f chia-og/.xproxy_download_url ]; then
-      wget -qO ./chia-og/tmp/xproxy.zip -i chia-og/.xproxy_download_url
-      unzip chia-og/tmp/xproxy.zip -d "chia-og/tmp"
+    if [ -f chia-og/xproxy/.download_url ]; then
+      wget -qO ./chia-og/xproxy/tmp/xproxy.zip -i chia-og/xproxy/.download_url
+      unzip chia-og/xproxy/tmp/xproxy.zip -d "chia-og/xproxy/tmp"
     else
       false
     fi
-    if [ -f chia-og/.hpool_miner_download_url ]; then
-      wget -qO ./chia-og/tmp/linux.zip -i chia-og/.hpool_miner_download_url
+    if [ -f chia-og/.download_url ]; then
+      wget -qO ./chia-og/tmp/linux.zip -i chia-og/.download_url
       unzip chia-og/tmp/linux.zip -d "chia-og/tmp"
     else
       false
@@ -274,15 +275,16 @@ steps:
   - apt-get -qq update
   - apt-get -qq install -y wget unzip
   - mkdir -p chia-pp/tmp
+  - mkdir -p chia-pp/xproxy/tmp
   - |
-    if [ -f chia-pp/.xproxy_download_url ]; then
-      wget -qO ./chia-pp/tmp/xproxy.zip -i chia-pp/.xproxy_download_url
-      unzip chia-pp/tmp/xproxy.zip -d "chia-pp/tmp"
+    if [ -f chia-pp/xproxy/.download_url ]; then
+      wget -qO ./chia-pp/xproxy/tmp/xproxy.zip -i chia-pp/xproxy/.download_url
+      unzip chia-pp/xproxy/tmp/xproxy.zip -d "chia-pp/xproxy/tmp"
     else
       false
     fi
-    if [ -f chia-pp/.hpool_miner_download_url ]; then
-      wget -qO ./chia-pp/tmp/linux.zip -i chia-pp/.hpool_miner_download_url
+    if [ -f chia-pp/.download_url ]; then
+      wget -qO ./chia-pp/tmp/linux.zip -i chia-pp/.download_url
       unzip chia-pp/tmp/linux.zip -d "chia-pp/tmp"
     else
       false

@@ -7,8 +7,6 @@ COPY / /opt
 RUN apt-get -qq update \
   && apt-get -qq install -y --no-install-recommends ca-certificates curl \
   && find /opt/ -name "*$TARGETARCH" | grep -v hpool-miner | xargs -i /bin/mv {} /opt/ \
-  && find /opt/ -name "*$TARGETARCH" \
-  && echo "*$TARGETARCH" \
   && cd /opt/ \
   && ls -al \
   && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini-$TARGETARCH \
