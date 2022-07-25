@@ -243,7 +243,7 @@ steps:
     platforms: "linux/amd64"
     dockerfile: chia-og/xproxy/Dockerfile
     repo: kayuii/hpool-miner
-    context: chia-og/xproxy
+    context: chia-og
     username:
       from_secret: docker_username
     password:
@@ -316,7 +316,7 @@ steps:
     platforms: "linux/amd64"
     dockerfile: chia-pp/xproxy/Dockerfile
     repo: kayuii/hpool-pp-miner
-    context: chia-pp/xproxy
+    context: chia-pp
     username:
       from_secret: docker_username
     password:
