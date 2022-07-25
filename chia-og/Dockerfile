@@ -11,6 +11,7 @@ RUN apt-get -qq update \
   && if [ "$TARGETARCH" = "arm" ] ; then export ARCH=arm ARCH2=armhf; fi \
   && find /opt/ -name "*$ARCH" | grep -v xproxy | xargs -i /bin/mv {} /opt/ \
   && cd /opt/ \
+  && ls -al \
   && curl -sOL https://github.com/krallin/tini/releases/download/v0.19.0/tini-$ARCH2 \
   && chmod +x tini* \
   && curl -sOL https://github.com/tianon/gosu/releases/download/1.14/gosu-$ARCH2 \
