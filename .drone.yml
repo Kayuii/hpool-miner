@@ -41,7 +41,7 @@ steps:
       exit
     fi
   - git fetch --tags
-  - CUR_VERSION=$(cat chia-og/.version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
+  - CUR_VERSION=$(cat chia-og/.version | awk '{gsub(/\(|\)/,"");if(length($3)>0)print $2"-"$3;else print $2;}')
   - XPROXY_VERSION=$(cat chia-og/xproxy/.version)
   - mkdir -p "/root/.ssh"
   - chmod 0700 /root/.ssh/
@@ -117,7 +117,7 @@ steps:
       exit
     fi
   - git fetch --tags
-  - CUR_VERSION=$(cat chia-pp/.version | awk '{gsub(/\(|\)/,"");printf $2 "-" $3}')
+  - CUR_VERSION=$(cat chia-pp/.version | awk '{gsub(/\(|\)/,"");if(length($3)>0)print $2"-"$3;else print $2;}')
   - XPROXY_VERSION=$(cat chia-pp/xproxy/.version)
   - mkdir -p "/root/.ssh"
   - chmod 0700 /root/.ssh/

@@ -11,7 +11,6 @@ cat <<-EOF > "/opt/config.yaml"
 server:
   host: 0.0.0.0
   port: 9190
-  url: ""
 log:
   level: "info"
   out: "./log/proxy.log"
