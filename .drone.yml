@@ -26,7 +26,7 @@ steps:
       echo $XPROXY | sed -r "s/.*-v(.*)\.zip/\1/g" | tee chia-og/xproxy/.version
       echo $HPOOL_LINUX | tee chia-og/.download_url
     else
-      rm chia-og/.version
+      rm chia-og/.version -rf
     fi
 
 - name: havenewversion
@@ -102,7 +102,7 @@ steps:
       echo $XPROXY | sed -r "s/.*-v(.*)\.zip/\1/g" | tee chia-pp/xproxy/.version
       echo $HPOOL_LINUX | tee chia-pp/.download_url
     else
-      rm chia-pp/.version
+      rm chia-pp/.version -rf
     fi
 
 - name: havenewversion

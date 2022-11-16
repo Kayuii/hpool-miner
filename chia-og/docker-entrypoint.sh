@@ -20,10 +20,6 @@ log:
   path: ./log/
   name: miner.log
 url:
-  info: ""
-  submit: ""
-  line: ""
-  ws: ""
   proxy: ""
 scanPath: false
 scanMinute: 60

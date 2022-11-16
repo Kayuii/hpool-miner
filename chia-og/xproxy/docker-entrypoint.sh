@@ -28,6 +28,8 @@ proxy:
   url: ""
   username: ""
   password: ""
+parameters:
+  disablePlotID: false
 EOF
 fi
 
