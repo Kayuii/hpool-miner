@@ -51,6 +51,9 @@ if [ "$1" = "x-proxy" ] ; then
         DBDIR=/opt/db/proxy.db
         sed -i "s#dbFile: \"proxy.db\"#dbFile: \"$DBDIR\"#g" config.yaml
     fi
+    if [ -n "$PLOTID" ]; then
+        sed -i "s#disablePlotID: false#disablePlotID: true#g" config.yaml
+    fi
 
     sed -i "s/apiKey: \"mass\"/apiKey: \"$MASSAPI\"/g" config.yaml
     sed -i "s/apiKey: \"chia\"/apiKey: \"$CHIAAPI\"/g" config.yaml
